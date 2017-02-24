@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_track"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.city4age.mobile.city4age.TrackActivity">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/my_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:background="@color/white"
+        android:elevation="4dp"
+        android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+        android:popupTheme="@style/ThemeOverlay.AppCompat.Light">
+
+        <ImageView
+            android:id="@+id/my_toolbar_logo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/city4age_logo"/>
+
+    </android.support.v7.widget.Toolbar>
+
+    <LinearLayout
+        android:id="@+id/track_activity_info"
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="60dp"
+        android:background="@color/c4a_gray">
+
+        <TextView
+            android:id="@+id/activity_track_description"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="20dp"
+            android:textSize="16dp"
+            android:textColor="@color/white"
+            android:text="WALKING AT SLOW OR NORMAL PACE" />
+
+        <TextView
+            android:id="@+id/activity_track_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginBottom="20dp"
+            android:textSize="28dp"
+            android:textColor="@color/white"
+            android:textAlignment="textEnd"
+            android:text="Walking" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_below="@+id/track_activity_info"
+        android:gravity="center">
+
+
+        <TextView
+            android:id="@+id/timer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/start"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="25dp"
+            android:layout_marginBottom="40dp"
+            android:text="@string/start_time"
+            android:textColor="#1c1c1c"
+            android:textSize="40sp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="2">
+
+            <Button
+                android:id="@+id/btn_cancel"
+                android:layout_width="match_parent"
+                android:layout_height="75dp"
+                android:textColor="@color/white"
+                android:background="#0fbdc4"
+                android:textSize="18dp"
+                android:layout_margin="5dp"
+                android:text="CANCEL"
+                android:layout_weight="1"/>
+
+            <Button
+                android:id="@+id/start"
+                android:layout_width="match_parent"
+                android:layout_height="75dp"
+                android:textColor="@color/white"
+                android:background="#0fbdc4"
+                android:textSize="18dp"
+                android:text="START"
+                android:layout_margin="5dp"
+                android:layout_weight="1"/>
+
+
+
+        </LinearLayout>
+
+
+
+        <Button
+            android:id="@+id/finish"
+            android:layout_width="match_parent"
+            android:layout_height="75dp"
+            android:layout_marginTop="10dp"
+            android:textColor="@color/white"
+            android:background="#0fbdc4"
+            android:textSize="22dp"
+            android:layout_margin="5dp"
+            android:text="FINISH" />
+
+    </LinearLayout>
+
+
+
+</RelativeLayout>

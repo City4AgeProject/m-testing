@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_select"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.city4age.mobile.city4age.SelectActivity">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/my_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:background="@color/white"
+        android:elevation="4dp"
+        android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+        android:popupTheme="@style/ThemeOverlay.AppCompat.Light">
+
+        <ImageView
+            android:id="@+id/my_toolbar_logo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/city4age_logo"/>
+
+    </android.support.v7.widget.Toolbar>
+
+    <LinearLayout
+        android:id="@+id/activity_selector_button"
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="60dp"
+        android:background="@color/c4a_gray">
+
+        <Button
+            android:id="@+id/btn_select_activity"
+            android:layout_width="match_parent"
+            android:layout_height="75dp"
+            android:text="SELECT ACTIVITY"
+            android:textColor="@color/white"
+            android:textSize="22dp"
+            android:background="#0fbdc4"
+            android:layout_margin="20dp"
+            android:drawableRight="@drawable/c4a_right_arrow_right"
+            android:paddingRight="50dp"
+            android:paddingLeft="50dp"/>
+
+        <TextView
+            android:id="@+id/user_full_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:textSize="18dp"
+            android:textColor="@color/white"
+            android:text="Or choose recent activity:"
+            android:gravity="center"/>
+
+    </LinearLayout>
+
+</RelativeLayout>
