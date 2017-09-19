@@ -19,7 +19,12 @@ import java.util.List;
 import com.city4age.mobile.city4age.Adapters.*;
 import com.city4age.mobile.city4age.Model.*;
 
+/**
+ * Created by srdjan.milakovic on 08/07/2017.
+ */
+
 public class ListActivity extends AppCompatActivity {
+
     ExpandableListAdapter listAdapter;
     ExpandableListView expListView;
     List<String> listDataHeader;
@@ -28,26 +33,25 @@ public class ListActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        // Reference XML layout
         setContentView(R.layout.activity_list);
 
+        // Add toolbar and icons
         Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
         setSupportActionBar(myToolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
-
         Drawable drawable = ContextCompat.getDrawable(getApplicationContext(),R.drawable.c4a_menu_icon);
         myToolbar.setOverflowIcon(drawable);
 
-        // get the listview
+        // Get the list view
         expListView = (ExpandableListView) findViewById(R.id.activity_exp_list);
 
-        // preparing list data
+        // Preparing list data
         prepareListData();
 
+        // Setting list adapter
         listAdapter = new CustomExpandableListAdapter(this, listDataHeader, listDataChild);
-
-        // setting list adapter
         expListView.setAdapter(listAdapter);
-
     }
 
     /*
@@ -400,7 +404,6 @@ public class ListActivity extends AppCompatActivity {
         Cultural.add(item0603);
 
         listDataChild.put(listDataHeader.get(5), Cultural);
-
     }
 
     @Override

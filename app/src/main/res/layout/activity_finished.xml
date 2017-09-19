@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/activity_finished"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="com.city4age.mobile.city4age.FinishedActivity">
+                xmlns:tools="http://schemas.android.com/tools"
+                android:id="@+id/activity_finished"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                tools:context="com.city4age.mobile.city4age.FinishedActivity">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/my_toolbar"
@@ -33,26 +33,42 @@
         android:gravity="center">
 
         <TextView
-            android:layout_width="match_parent"
+            android:layout_width="25dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:layout_marginLeft="0dp"
             android:text="#"
+            android:textAlignment="textStart"
             android:textColor="@color/c4a_gray"
-            android:paddingLeft="15dp"/>
+            android:paddingLeft="5dp"/>
 
         <TextView
-            android:layout_width="match_parent"
+            android:layout_width="90dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:layout_weight="3"
             android:text="Activity name"
-            android:textColor="@color/c4a_gray"/>
+            android:textAlignment="textStart"
+            android:textColor="@color/c4a_gray" />
 
         <TextView
-            android:layout_width="match_parent"
+            android:layout_width="70dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:text="Start date"
+            android:textAlignment="textStart"
+            android:textColor="@color/c4a_gray" />
+
+        <TextView
+            android:layout_width="70dp"
+            android:layout_height="wrap_content"
             android:text="End date"
-            android:textColor="@color/c4a_gray"/>
+            android:textAlignment="textStart"
+            android:textColor="@color/c4a_gray" />
+
+        <TextView
+            android:layout_width="90dp"
+            android:layout_height="wrap_content"
+            android:text="Cords"
+            android:textAlignment="center"
+            android:textColor="@color/c4a_gray" />
 
     </LinearLayout>
 

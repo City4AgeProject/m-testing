@@ -20,6 +20,10 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Created by srdjan.milakovic on 08/07/2017.
+ */
+
 public class FinishedActivity extends AppCompatActivity {
     JSONToFileHelper dataManipulation;
     List<ActivityC4A> listOfActivities;
@@ -36,10 +40,9 @@ public class FinishedActivity extends AppCompatActivity {
         Drawable drawable = ContextCompat.getDrawable(getApplicationContext(),R.drawable.c4a_menu_icon);
         myToolbar.setOverflowIcon(drawable);
 
-        dataManipulation = new JSONToFileHelper();
-        String savedData = dataManipulation.getData(getApplicationContext());
+        String savedData = JSONToFileHelper.getData(getApplicationContext());
 
-        if(savedData != null && !savedData.isEmpty()) {
+        if (savedData != null && !savedData.isEmpty()) {
             Type listType = new TypeToken<ArrayList<ActivityC4A>>(){}.getType();
             listOfActivities = new Gson().fromJson(savedData, listType);
         }
@@ -47,14 +50,10 @@ public class FinishedActivity extends AppCompatActivity {
             listOfActivities = new ArrayList<ActivityC4A>();
         }
 
-
-
         ListView lv = (ListView) findViewById(R.id.lv_finished_activities);
         // initialize listview
         lv.setAdapter(new FinishedActivitiesListViewAdapter(this,listOfActivities));
         // set the custom adapter to listview
-
-
     }
 
     @Override

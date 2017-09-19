@@ -1,9 +1,11 @@
 package com.city4age.mobile.city4age.Model;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
- * Created by Vukasin.Demic on 12/14/2016.
+ * Created by srdjan.milakovic on 08/07/2017.
  */
 
 public class ActivityC4A {
@@ -16,6 +18,23 @@ public class ActivityC4A {
     private int house_number;
     private int location_id;
     private String activity_description;
+    private ArrayList<SensorDataC4A> sensor_data;
+
+    public ActivityC4A() {
+        sensor_data= new ArrayList<SensorDataC4A>();
+    }
+
+    public ArrayList<SensorDataC4A> getSensor_data() {
+        return sensor_data;
+    }
+
+    public void setSensor_data(ArrayList<SensorDataC4A> sensor_data) {
+        this.sensor_data = sensor_data;
+    }
+
+    public void addSensorData(SensorDataC4A data) {
+        this.sensor_data.add(data);
+    }
 
     public int getId() {
         return id;

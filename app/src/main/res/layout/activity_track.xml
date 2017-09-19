@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/activity_track"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="com.city4age.mobile.city4age.TrackActivity">
+                xmlns:tools="http://schemas.android.com/tools"
+                android:id="@+id/activity_track"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                tools:context="com.city4age.mobile.city4age.TrackActivity">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/my_toolbar"

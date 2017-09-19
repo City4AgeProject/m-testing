@@ -22,7 +22,7 @@ import com.city4age.mobile.city4age.TrackActivity;
 import com.google.gson.Gson;
 
 /**
- * Created by Vukasin.Demic on 12/13/2016.
+ * Created by srdjan.milakovic on 08/07/2017.
  */
 
 public class CustomExpandableListAdapter extends BaseExpandableListAdapter {

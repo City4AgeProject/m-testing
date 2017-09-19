@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.city4age.mobile.city4age">
+          package="com.city4age.mobile.city4age">
+
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
@@ -18,7 +23,9 @@
         <activity android:name=".SelectActivity" />
         <activity android:name=".ListActivity" />
         <activity android:name=".TrackActivity" />
-        <activity android:name=".FinishedActivity"></activity>
+        <activity android:name=".FinishedActivity"/>
+
+        <service android:name=".Sensors.GPSSensor"/>
     </application>
 
 </manifest>

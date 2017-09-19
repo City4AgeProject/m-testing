@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/activity_select"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="com.city4age.mobile.city4age.SelectActivity">
+                xmlns:tools="http://schemas.android.com/tools"
+                android:id="@+id/activity_select"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                tools:context="com.city4age.mobile.city4age.SelectActivity">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/my_toolbar"
@@ -49,11 +49,22 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="20dp"
-            android:textSize="18dp"
+            android:textSize="12dp"
             android:textColor="@color/white"
-            android:text="Or choose recent activity:"
+            android:text=""
             android:gravity="center"/>
 
     </LinearLayout>
+
+    <Button
+        android:id="@+id/btn_sync"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Synchronize"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_margin="20dp"
+        android:textColor="@color/white"
+        android:background="#0fbdc4"/>
 
 </RelativeLayout>
