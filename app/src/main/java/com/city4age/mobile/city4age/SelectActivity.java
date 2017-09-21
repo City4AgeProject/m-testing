@@ -18,8 +18,8 @@ import android.widget.Toast;
 
 import com.city4age.mobile.city4age.Helpers.HttpHelper;
 import com.city4age.mobile.city4age.Helpers.JSONToFileHelper;
-import com.city4age.mobile.city4age.Model.ActivityC4A;
-import com.city4age.mobile.city4age.Model.SensorDataC4A;
+import com.city4age.mobile.city4age.Model.ActivityData;
+import com.city4age.mobile.city4age.Model.GPSData;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -42,7 +42,7 @@ public class SelectActivity extends AppCompatActivity {
     Button btnSelectActivity;
     Button btnSyncToServer;
     private SyncTask mSyncTask = null;
-    List<ActivityC4A> listOfActivities;
+    List<ActivityData> listOfActivities;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,14 +76,14 @@ public class SelectActivity extends AppCompatActivity {
                 String savedData = JSONToFileHelper.getData(getApplicationContext());
 
                 if (savedData != null && !savedData.isEmpty()) {
-                    Type listType = new TypeToken<ArrayList<ActivityC4A>>(){}.getType();
+                    Type listType = new TypeToken<ArrayList<ActivityData>>(){}.getType();
                     listOfActivities = new Gson().fromJson(savedData, listType);
                 }
                 else{
-                    listOfActivities = new ArrayList<ActivityC4A>();
+                    listOfActivities = new ArrayList<ActivityData>();
                 }
 
-                mSyncTask = new SyncTask((ArrayList<ActivityC4A>) listOfActivities);
+                mSyncTask = new SyncTask((ArrayList<ActivityData>) listOfActivities);
                 mSyncTask.execute((Void) null);
             }
         });
@@ -127,9 +127,9 @@ public class SelectActivity extends AppCompatActivity {
 
     private class SyncTask extends AsyncTask<Void, Void, Boolean> {
 
-        private final ArrayList<ActivityC4A> activities;
+        private final ArrayList<ActivityData> activities;
 
-        SyncTask(ArrayList<ActivityC4A> activities) {
+        SyncTask(ArrayList<ActivityData> activities) {
             this.activities = activities;
         }
 
@@ -149,6 +149,16 @@ public class SelectActivity extends AppCompatActivity {
                   "type": "Walking",
                   "start": "Tue Aug 01 22:04:50 GMT+00:00 2017",
                   "end": "Tue Aug 01 22:05:02 GMT+00:00 2017",
+                  "bluetooth": [
+                    {
+                     "devices": "samsung, mojIphone, foo, bar",
+                     "date": "Tue Aug 01 22:04:50 GMT+00:00 2017"
+                    },
+                    {
+                     "devices": "samsung, bar",
+                     "date": "Tue Aug 01 22:04:56 GMT+00:00 2017"
+                    }
+                  ],
                   "gps": [
                     {
                       "longitude": -122.084,
@@ -189,19 +199,21 @@ public class SelectActivity extends AppCompatActivity {
              */
             try {
                 SharedPreferences prefs = getSharedPreferences("LOCAL_DATA", 0);
-                jsonParam.put("ID", prefs.getString("user_id", "0"));
+                jsonParam.put("ID", Integer.valueOf(prefs.getString("user_id", "0")));
 
                 Date now = new Date();
                 jsonParam.put("date", now.toString());
                 JSONArray activitiesJson = new JSONArray();
-                for (ActivityC4A act : this.activities) {
+                for (ActivityData act : this.activities) {
+                    // Global activity data
                     JSONObject jsonAct = new JSONObject();
                     jsonAct.put("type", act.getActivity_name());
                     jsonAct.put("start", act.getActivity_start_date().toString());
                     jsonAct.put("end", act.getActivity_end_date().toString());
 
+                    // GPS activity data
                     JSONArray gpsJson = new JSONArray();
-                    for (SensorDataC4A sens : act.getSensor_data()) {
+                    for (GPSData sens : act.getGpsData()) {
                         JSONObject gpsLocJson = new JSONObject();
                         gpsLocJson.put("longitude", sens.getLongitude());
                         gpsLocJson.put("latitude", sens.getLatitude());
@@ -209,6 +221,15 @@ public class SelectActivity extends AppCompatActivity {
                         gpsJson.put(gpsLocJson);
                     }
                     jsonAct.put("gps", gpsJson);
+
+                    // Bluetooth activity data
+                    JSONArray blueJson = new JSONArray();
+                    for (GPSData sens : act.getGpsData()) {
+                        JSONObject blueDeviceJson = new JSONObject();
+                        blueDeviceJson.put("date", sens.getTimestamp());
+                        blueJson.put(blueDeviceJson);
+                    }
+                    jsonAct.put("bluetooth", blueJson);
 
                     activitiesJson.put(jsonAct);
                 }
@@ -247,6 +268,7 @@ public class SelectActivity extends AppCompatActivity {
             if (result) {
                 Toast toast = Toast.makeText(context, textSuccess, Toast.LENGTH_SHORT);
                 toast.show();
+                JSONToFileHelper.saveData(context, "");
             } else {
                 Toast toast = Toast.makeText(context, textError, Toast.LENGTH_SHORT);
                 toast.show();

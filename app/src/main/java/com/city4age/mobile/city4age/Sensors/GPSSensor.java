@@ -14,7 +14,6 @@ import android.support.annotation.Nullable;
 /**
  * Created by srdjan.milakovic on 22/05/2017.
  */
-
 public class GPSSensor extends Service {
 
     private LocationListener listener;

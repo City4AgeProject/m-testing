@@ -2,38 +2,30 @@ package com.city4age.mobile.city4age.Model;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 /**
  * Created by srdjan.milakovic on 08/07/2017.
  */
-
-public class ActivityC4A {
+public class ActivityData {
     private int id;
     private String activity_name;
     private Date activity_start_date;
     private Date activity_end_date;
-    private Date creation_date;
-    private Date since;
-    private int house_number;
-    private int location_id;
     private String activity_description;
-    private ArrayList<SensorDataC4A> sensor_data;
+    private ArrayList<GPSData> gpsData;
+    private ArrayList<BluetoothData> bluetoothData;
 
-    public ActivityC4A() {
-        sensor_data= new ArrayList<SensorDataC4A>();
+    public ActivityData() {
+        gpsData = new ArrayList<GPSData>();
+        bluetoothData = new ArrayList<BluetoothData>();
     }
 
-    public ArrayList<SensorDataC4A> getSensor_data() {
-        return sensor_data;
+    public ArrayList<GPSData> getGpsData() {
+        return gpsData;
     }
 
-    public void setSensor_data(ArrayList<SensorDataC4A> sensor_data) {
-        this.sensor_data = sensor_data;
-    }
-
-    public void addSensorData(SensorDataC4A data) {
-        this.sensor_data.add(data);
+    public void addSensorData(GPSData data) {
+        this.gpsData.add(data);
     }
 
     public int getId() {
@@ -68,43 +60,19 @@ public class ActivityC4A {
         this.activity_end_date = activity_end_date;
     }
 
-    public Date getCreation_date() {
-        return creation_date;
-    }
-
-    public void setCreation_date(Date creation_date) {
-        this.creation_date = creation_date;
-    }
-
-    public Date getSince() {
-        return since;
-    }
-
-    public void setSince(Date since) {
-        this.since = since;
-    }
-
-    public int getHouse_number() {
-        return house_number;
-    }
-
-    public void setHouse_number(int house_number) {
-        this.house_number = house_number;
-    }
-
-    public int getLocation_id() {
-        return location_id;
-    }
-
-    public void setLocation_id(int location_id) {
-        this.location_id = location_id;
-    }
-
     public String getActivity_description() {
         return activity_description;
     }
 
     public void setActivity_description(String activity_description) {
         this.activity_description = activity_description;
+    }
+
+    public ArrayList<BluetoothData> getBluetoothData() {
+        return bluetoothData;
+    }
+
+    public void addBluetoothData(BluetoothData bluetoothData) {
+        this.bluetoothData.add(bluetoothData);
     }
 }

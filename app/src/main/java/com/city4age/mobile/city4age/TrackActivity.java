@@ -1,6 +1,7 @@
 package com.city4age.mobile.city4age;
 
 import android.Manifest;
+import android.bluetooth.BluetoothDevice;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -25,8 +26,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.city4age.mobile.city4age.Helpers.JSONToFileHelper;
-import com.city4age.mobile.city4age.Model.ActivityC4A;
-import com.city4age.mobile.city4age.Model.SensorDataC4A;
+import com.city4age.mobile.city4age.Model.ActivityData;
+import com.city4age.mobile.city4age.Model.BluetoothData;
+import com.city4age.mobile.city4age.Model.GPSData;
+import com.city4age.mobile.city4age.Sensors.BluetoothSensor;
 import com.city4age.mobile.city4age.Sensors.GPSSensor;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -42,7 +45,7 @@ import java.util.List;
 
 public class TrackActivity extends AppCompatActivity {
     String activityJSON;
-    ActivityC4A activity;
+    ActivityData activity;
     static final String ACTIVITY_DATA = "ACTIVITY_DATA";
     private BroadcastReceiver broadcastReceiver;
 
@@ -75,7 +78,7 @@ public class TrackActivity extends AppCompatActivity {
         final Gson gson = new Gson();
         Bundle extras = getIntent().getExtras();
         activityJSON = extras.getString(ACTIVITY_DATA);
-        activity = gson.fromJson(activityJSON, ActivityC4A.class);
+        activity = gson.fromJson(activityJSON, ActivityData.class);
 
         // Display activity info
         TextView activityDescription = (TextView) findViewById(R.id.activity_track_description);
@@ -145,15 +148,15 @@ public class TrackActivity extends AppCompatActivity {
                 activity.setActivity_end_date(new Date());
 
                 if (savedData != null && !savedData.isEmpty()) {
-                    Type listType = new TypeToken<ArrayList<ActivityC4A>>(){}.getType();
-                    List<ActivityC4A> listOfActivities = new Gson().fromJson(savedData, listType);
+                    Type listType = new TypeToken<ArrayList<ActivityData>>(){}.getType();
+                    List<ActivityData> listOfActivities = new Gson().fromJson(savedData, listType);
                     listOfActivities.add(activity);
 
                     String updatedListOfActivities = gson.toJson(listOfActivities);
                     JSONToFileHelper.saveData(getApplicationContext(), updatedListOfActivities);
 
                 } else {
-                    List<ActivityC4A> newListOfActivites = new ArrayList<ActivityC4A>();
+                    List<ActivityData> newListOfActivites = new ArrayList<ActivityData>();
                     newListOfActivites.add(activity);
 
                     String newListToSaveToFile = gson.toJson(newListOfActivites);
@@ -179,13 +182,30 @@ public class TrackActivity extends AppCompatActivity {
             broadcastReceiver = new BroadcastReceiver() {
                 @Override
                 public void onReceive(Context context, Intent intent) {
-                    Bundle b = intent.getExtras();
-                    SensorDataC4A sensData = new SensorDataC4A(new Date(),
-                            b.getDouble("latitude"),
-                            b.getDouble("longitude")
-                    );
 
-                    activity.addSensorData(sensData);
+                    switch (intent.getAction()) {
+                        case "location_update":
+                            Log.d("==Receiver", "location_update");
+                            Bundle b = intent.getExtras();
+                            GPSData gpsData = new GPSData(new Date(),
+                                    b.getDouble("latitude"),
+                                    b.getDouble("longitude")
+                            );
+
+                            activity.addSensorData(gpsData);
+                            break;
+
+                        case "bluetooth_update":
+
+                            BluetoothDevice device = intent.getExtras().getParcelable("device");
+                            assert device != null;
+                            Log.d("==Receiver", "bluetooth_update" + device.getName());
+                            ArrayList<String> list = new ArrayList<String>();
+                            BluetoothData btData = new BluetoothData(new Date(), list);
+                            activity.addBluetoothData(btData);
+                            break;
+                    }
+
                 }
             };
         }
@@ -224,13 +244,13 @@ public class TrackActivity extends AppCompatActivity {
     }
 
     public void activateSensors() {
-        Intent i = new Intent(getApplicationContext(), GPSSensor.class);
-        startService(i);
+        startService(new Intent(getApplicationContext(), GPSSensor.class));
+        startService(new Intent(getApplicationContext(), BluetoothSensor.class));
     }
 
     public void deactivateSensors() {
-        Intent i = new Intent(getApplicationContext(), GPSSensor.class);
-        stopService(i);
+        stopService(new Intent(getApplicationContext(), GPSSensor.class));
+        startService(new Intent(getApplicationContext(), BluetoothSensor.class));
     }
 
     public Runnable updateTimer = new Runnable() {

@@ -1,9 +1,7 @@
 package com.city4age.mobile.city4age.Helpers;
 
 import android.content.Context;
-import android.os.Environment;
 import android.util.Log;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileWriter;
@@ -12,14 +10,11 @@ import java.io.IOException;
 /**
  * Created by srdjan.milakovic on 08/07/2017.
  */
-
 public class JSONToFileHelper {
     static String fileName = "FinishedActivities.json";
 
     public static void saveData(Context context, String mJsonResponse) {
         try {
-            String folderPathExternal = Environment.getExternalStorageDirectory().getPath();
-            String folderPathInternal = context.getFilesDir().getPath();
             FileWriter file = new FileWriter(context.getFilesDir().getPath() + "/" + fileName);
             file.write(mJsonResponse);
             file.flush();

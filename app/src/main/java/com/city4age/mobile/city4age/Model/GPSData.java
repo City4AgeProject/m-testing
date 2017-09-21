@@ -6,12 +6,12 @@ import java.util.Date;
  * Created by srdjan.milakovic on 30/07/2017.
  */
 
-public class SensorDataC4A {
+public class GPSData {
     private Date timestamp;
     private double latitude;
     private double longitude;
 
-    public SensorDataC4A(Date timestamp, double latitude, double longitude) {
+    public GPSData(Date timestamp, double latitude, double longitude) {
         this.timestamp = timestamp;
         this.latitude = latitude;
         this.longitude = longitude;

@@ -9,15 +9,12 @@ import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.List;
 import java.util.HashMap;
 
-import com.city4age.mobile.city4age.Helpers.Variables;
 import com.city4age.mobile.city4age.R;
 import com.city4age.mobile.city4age.Model.*;
-import com.city4age.mobile.city4age.SelectActivity;
 import com.city4age.mobile.city4age.TrackActivity;
 import com.google.gson.Gson;
 
@@ -32,10 +29,10 @@ public class CustomExpandableListAdapter extends BaseExpandableListAdapter {
     private Context _context;
     private List<String> _listDataHeader; // header titles
     // child data in format of header title, child title
-    private HashMap<String, List<ActivityC4A>> _listDataChild;
+    private HashMap<String, List<ActivityData>> _listDataChild;
 
     public CustomExpandableListAdapter(Context context, List<String> listDataHeader,
-                                       HashMap<String, List<ActivityC4A>> listChildData) {
+                                       HashMap<String, List<ActivityData>> listChildData) {
         this._context = context;
         this._listDataHeader = listDataHeader;
         this._listDataChild = listChildData;
@@ -56,7 +53,7 @@ public class CustomExpandableListAdapter extends BaseExpandableListAdapter {
     public View getChildView(int groupPosition, final int childPosition,
                              boolean isLastChild, View convertView, ViewGroup parent) {
 
-        final ActivityC4A childObject = (ActivityC4A) getChild(groupPosition, childPosition);
+        final ActivityData childObject = (ActivityData) getChild(groupPosition, childPosition);
 
         if (convertView == null) {
             LayoutInflater infalInflater = (LayoutInflater) this._context
@@ -76,7 +73,7 @@ public class CustomExpandableListAdapter extends BaseExpandableListAdapter {
             public void onClick(View v) {
 
                 Gson gson = new Gson();
-                ActivityC4A activity = (ActivityC4A) v.getTag();
+                ActivityData activity = (ActivityData) v.getTag();
                 String activityObject = gson.toJson(activity);
 
 //                int duration = Toast.LENGTH_SHORT;

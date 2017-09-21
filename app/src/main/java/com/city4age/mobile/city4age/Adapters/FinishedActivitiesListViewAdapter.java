@@ -7,15 +7,11 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-import com.city4age.mobile.city4age.Model.ActivityC4A;
-import com.city4age.mobile.city4age.Model.SensorDataC4A;
+import com.city4age.mobile.city4age.Model.ActivityData;
+import com.city4age.mobile.city4age.Model.GPSData;
 import com.city4age.mobile.city4age.R;
 
-import java.text.SimpleDateFormat;
 import java.util.List;
-import java.util.Locale;
-
-import static android.R.attr.data;
 
 /**
  * Created by srdjan.milakovic on 08/07/2017.
@@ -23,10 +19,10 @@ import static android.R.attr.data;
 
 public class FinishedActivitiesListViewAdapter extends ArrayAdapter {
 
-    List<ActivityC4A> activitiesList;
+    List<ActivityData> activitiesList;
     private static LayoutInflater inflater = null;
 
-    public FinishedActivitiesListViewAdapter(Context context, List<ActivityC4A> list) {
+    public FinishedActivitiesListViewAdapter(Context context, List<ActivityData> list) {
         super(context, 0, list);
         activitiesList = list;
         inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -51,7 +47,7 @@ public class FinishedActivitiesListViewAdapter extends ArrayAdapter {
             holder = (ViewHolder) convertView.getTag();
         }
 
-        ActivityC4A in = (ActivityC4A) activitiesList.get(position);
+        ActivityData in = (ActivityData) activitiesList.get(position);
         String positionNumber = String.valueOf(position + 1);
         holder.number.setText(positionNumber);
         holder.name.setText(in.getActivity_name());
@@ -63,7 +59,7 @@ public class FinishedActivitiesListViewAdapter extends ArrayAdapter {
 
         StringBuilder cords = new StringBuilder();
 
-        for (SensorDataC4A sensData:in.getSensor_data()) {
+        for (GPSData sensData:in.getGpsData()) {
             cords.append(sensData.getLatitude());
             cords.append(',');
             cords.append(sensData.getLongitude());

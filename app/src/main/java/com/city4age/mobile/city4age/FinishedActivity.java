@@ -12,7 +12,7 @@ import android.widget.ListView;
 
 import com.city4age.mobile.city4age.Adapters.FinishedActivitiesListViewAdapter;
 import com.city4age.mobile.city4age.Helpers.JSONToFileHelper;
-import com.city4age.mobile.city4age.Model.ActivityC4A;
+import com.city4age.mobile.city4age.Model.ActivityData;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -26,7 +26,7 @@ import java.util.List;
 
 public class FinishedActivity extends AppCompatActivity {
     JSONToFileHelper dataManipulation;
-    List<ActivityC4A> listOfActivities;
+    List<ActivityData> listOfActivities;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,11 +43,11 @@ public class FinishedActivity extends AppCompatActivity {
         String savedData = JSONToFileHelper.getData(getApplicationContext());
 
         if (savedData != null && !savedData.isEmpty()) {
-            Type listType = new TypeToken<ArrayList<ActivityC4A>>(){}.getType();
+            Type listType = new TypeToken<ArrayList<ActivityData>>(){}.getType();
             listOfActivities = new Gson().fromJson(savedData, listType);
         }
         else{
-            listOfActivities = new ArrayList<ActivityC4A>();
+            listOfActivities = new ArrayList<ActivityData>();
         }
 
         ListView lv = (ListView) findViewById(R.id.lv_finished_activities);
