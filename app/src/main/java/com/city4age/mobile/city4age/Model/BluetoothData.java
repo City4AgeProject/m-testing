@@ -8,10 +8,11 @@ import java.util.Date;
  */
 public class BluetoothData {
     private Date timestamp;
-    private ArrayList<String> devices;
+    private String device;
 
-    public BluetoothData(Date timestamp, ArrayList<String> devices) {
+    public BluetoothData(Date timestamp, String device) {
         this.timestamp = timestamp;
+        this.device = device;
     }
 
     public Date getTimestamp() {
@@ -22,11 +23,11 @@ public class BluetoothData {
         this.timestamp = timestamp;
     }
 
-    public ArrayList<String> getDevices() {
-        return devices;
+    public String getDevice() {
+        return device;
     }
 
-    public void setDevices(ArrayList<String> devices) {
-        this.devices = devices;
+    public void setDevice(String device) {
+        this.device = device;
     }
 }

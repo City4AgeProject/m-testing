@@ -28,10 +28,9 @@ public class BluetoothSensor extends Service {
     private BroadcastReceiver mBroadcastReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            final String action = intent.getAction();
             Log.d(TAG, "onReceive: ACTION_FOUND.");
 
-            if (action.equals(BluetoothDevice.ACTION_FOUND)){
+            if (intent.getAction().equals(BluetoothDevice.ACTION_FOUND)) {
                 BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
                 Log.d(TAG, "onReceive: " + device.getName() + ": " + device.getAddress());
 
@@ -50,21 +49,37 @@ public class BluetoothSensor extends Service {
         return null;
     }
 
+    public void startDiscovery() {
+        Log.d(TAG, "Looking for unpaired devices.");
+
+        if (mBluetoothAdapter.isDiscovering()) {
+            mBluetoothAdapter.isDiscovering();
+            Log.d(TAG, "Canceling discovery.");
+
+            mBluetoothAdapter.startDiscovery();
+            IntentFilter discoverDevicesIntent = new IntentFilter(BluetoothDevice.ACTION_FOUND);
+            registerReceiver(mBroadcastReceiver, discoverDevicesIntent);
+        }
+        if (!mBluetoothAdapter.isDiscovering()){
+
+            mBluetoothAdapter.startDiscovery();
+            IntentFilter discoverDevicesIntent = new IntentFilter(BluetoothDevice.ACTION_FOUND);
+            registerReceiver(mBroadcastReceiver, discoverDevicesIntent);
+        }
+    }
+
     @Override
     public void onCreate() {
         mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
 
         if (mBluetoothAdapter == null) {
             Log.d(TAG, "enableDisableBT: Does not have BT capabilities.");
-            return;
         } else if (!mBluetoothAdapter.isEnabled()){
             Log.d(TAG, "enableDisableBT: enabling BT.");
-            Intent enableBTIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
-            startActivity(enableBTIntent);
+            mBluetoothAdapter.enable();
         }
 
-        IntentFilter BTIntent = new IntentFilter(BluetoothAdapter.ACTION_STATE_CHANGED);
-        registerReceiver(mBroadcastReceiver, BTIntent);
+        startDiscovery();
     }
 
     @Override

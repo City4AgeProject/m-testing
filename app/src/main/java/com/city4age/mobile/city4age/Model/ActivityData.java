@@ -14,10 +14,12 @@ public class ActivityData {
     private String activity_description;
     private ArrayList<GPSData> gpsData;
     private ArrayList<BluetoothData> bluetoothData;
+    private ArrayList<WifiData> wifiData;
 
     public ActivityData() {
         gpsData = new ArrayList<GPSData>();
         bluetoothData = new ArrayList<BluetoothData>();
+        wifiData = new ArrayList<WifiData>();
     }
 
     public ArrayList<GPSData> getGpsData() {
@@ -74,5 +76,13 @@ public class ActivityData {
 
     public void addBluetoothData(BluetoothData bluetoothData) {
         this.bluetoothData.add(bluetoothData);
+    }
+
+    public ArrayList<WifiData> getWifiData() {
+        return wifiData;
+    }
+
+    public void addWifiData(WifiData wifiData) {
+        this.wifiData.add(wifiData);
     }
 }

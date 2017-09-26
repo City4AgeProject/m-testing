@@ -29,20 +29,22 @@ import com.city4age.mobile.city4age.Helpers.JSONToFileHelper;
 import com.city4age.mobile.city4age.Model.ActivityData;
 import com.city4age.mobile.city4age.Model.BluetoothData;
 import com.city4age.mobile.city4age.Model.GPSData;
+import com.city4age.mobile.city4age.Model.WifiData;
 import com.city4age.mobile.city4age.Sensors.BluetoothSensor;
 import com.city4age.mobile.city4age.Sensors.GPSSensor;
+import com.city4age.mobile.city4age.Sensors.WifiSensor;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
 /**
  * Created by srdjan.milakovic on 08/07/2017.
  */
-
 public class TrackActivity extends AppCompatActivity {
     String activityJSON;
     ActivityData activity;
@@ -94,12 +96,8 @@ public class TrackActivity extends AppCompatActivity {
         // Save to file control
         btnFinnish = (Button) findViewById(R.id.finish);
 
-        // Start GPS
-        runtime_permissions();
-
         // Btn start click listener
         butnstart.setOnClickListener(new View.OnClickListener() {
-
             @Override
             public void onClick(View v) {
                 if (t == 1) {
@@ -110,7 +108,7 @@ public class TrackActivity extends AppCompatActivity {
                     handler.postDelayed(updateTimer, 0);
                     t = 0;
                     butnstart.setAlpha(0.5f);
-                    activateSensors();
+                    checkPermisionsAndActivateSensors();
                 }
             }
         });
@@ -182,34 +180,36 @@ public class TrackActivity extends AppCompatActivity {
             broadcastReceiver = new BroadcastReceiver() {
                 @Override
                 public void onReceive(Context context, Intent intent) {
-
-                    switch (intent.getAction()) {
-                        case "location_update":
-                            Log.d("==Receiver", "location_update");
-                            Bundle b = intent.getExtras();
-                            GPSData gpsData = new GPSData(new Date(),
-                                    b.getDouble("latitude"),
-                                    b.getDouble("longitude")
-                            );
-
-                            activity.addSensorData(gpsData);
-                            break;
-
-                        case "bluetooth_update":
-
-                            BluetoothDevice device = intent.getExtras().getParcelable("device");
-                            assert device != null;
-                            Log.d("==Receiver", "bluetooth_update" + device.getName());
-                            ArrayList<String> list = new ArrayList<String>();
-                            BluetoothData btData = new BluetoothData(new Date(), list);
-                            activity.addBluetoothData(btData);
-                            break;
+                    String action = intent.getAction();
+                    if (action.compareTo("location_update") == 0) {
+                        Log.d("==Receiver", "location_update");
+                        Bundle b = intent.getExtras();
+                        GPSData gpsData = new GPSData(new Date(),
+                                b.getDouble("latitude"),
+                                b.getDouble("longitude")
+                        );
+                        activity.addSensorData(gpsData);
+                    } else if (action.compareTo("bluetooth_update") == 0) {
+                        BluetoothDevice device = intent.getExtras().getParcelable("device");
+                        assert device != null;
+                        Log.d("==Receiver", "bluetooth_update" + device.getName());
+                        BluetoothData btData = new BluetoothData(new Date(), device.getName());
+                        activity.addBluetoothData(btData);
+                    } else if (action.compareTo("wifi_update") == 0) {
+                        String[] devices = intent.getExtras().getStringArray("devices");
+                        assert devices != null;
+                        WifiData wifiData = new WifiData(new Date(), new ArrayList<String>(Arrays.asList(devices)));
+                        activity.addWifiData(wifiData);
                     }
-
                 }
             };
         }
-        registerReceiver(broadcastReceiver, new IntentFilter("location_update"));
+
+        IntentFilter sensorFilterIntent = new IntentFilter();
+        sensorFilterIntent.addAction("location_update");
+        sensorFilterIntent.addAction("bluetooth_update");
+        sensorFilterIntent.addAction("wifi_update");
+        registerReceiver(broadcastReceiver, sensorFilterIntent);
     }
 
     @Override
@@ -220,25 +220,21 @@ public class TrackActivity extends AppCompatActivity {
         }
     }
 
-    private boolean runtime_permissions() {
-        if (Build.VERSION.SDK_INT >= 23 && ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
-                ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-
-            requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, 100);
-
-            return true;
+    private void checkPermisionsAndActivateSensors() {
+        if (Build.VERSION.SDK_INT >= 23
+                //&& ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                //&& ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED
+        ) {
+            requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, 123 );
         }
-        return false;
     }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode == 100) {
+        if (requestCode == 123) {
             if (grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults[1] == PackageManager.PERMISSION_GRANTED) {
-                //enable_buttons();
-            } else {
-                runtime_permissions();
+                activateSensors();
             }
         }
     }
@@ -246,11 +242,13 @@ public class TrackActivity extends AppCompatActivity {
     public void activateSensors() {
         startService(new Intent(getApplicationContext(), GPSSensor.class));
         startService(new Intent(getApplicationContext(), BluetoothSensor.class));
+        startService(new Intent(getApplicationContext(), WifiSensor.class));
     }
 
     public void deactivateSensors() {
         stopService(new Intent(getApplicationContext(), GPSSensor.class));
-        startService(new Intent(getApplicationContext(), BluetoothSensor.class));
+        stopService(new Intent(getApplicationContext(), BluetoothSensor.class));
+        stopService(new Intent(getApplicationContext(), WifiSensor.class));
     }
 
     public Runnable updateTimer = new Runnable() {

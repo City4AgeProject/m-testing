@@ -19,7 +19,9 @@ import android.widget.Toast;
 import com.city4age.mobile.city4age.Helpers.HttpHelper;
 import com.city4age.mobile.city4age.Helpers.JSONToFileHelper;
 import com.city4age.mobile.city4age.Model.ActivityData;
+import com.city4age.mobile.city4age.Model.BluetoothData;
 import com.city4age.mobile.city4age.Model.GPSData;
+import com.city4age.mobile.city4age.Model.WifiData;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -142,55 +144,92 @@ public class SelectActivity extends AppCompatActivity {
 
             /*
             {
-              "ID": "3",
-              "date": "Tue Aug 01 22:11:31 GMT+00:00 2017",
+              "ID": 1000003,
+              "date": "Sat Sep 23 00:53:47 GMT+02:00 2017",
               "activities": [
                 {
                   "type": "Walking",
-                  "start": "Tue Aug 01 22:04:50 GMT+00:00 2017",
-                  "end": "Tue Aug 01 22:05:02 GMT+00:00 2017",
-                  "bluetooth": [
-                    {
-                     "devices": "samsung, mojIphone, foo, bar",
-                     "date": "Tue Aug 01 22:04:50 GMT+00:00 2017"
-                    },
-                    {
-                     "devices": "samsung, bar",
-                     "date": "Tue Aug 01 22:04:56 GMT+00:00 2017"
-                    }
-                  ],
+                  "start": "Sat Sep 23 00:39:29 GMT+02:00 2017",
+                  "end": "Sat Sep 23 00:43:30 GMT+02:00 2017",
                   "gps": [
                     {
-                      "longitude": -122.084,
-                      "latitude": 37.421998333333,
-                      "date": "Tue Aug 01 22:04:50 GMT+00:00 2017"
+                      "date": "Sat Sep 23 00:40:36 GMT+02:00 2017",
+                      "longitude": 20.404110533433894,
+                      "latitude": 44.84603834112401
                     },
                     {
-                      "longitude": -122.084,
-                      "latitude": 37.421998333333,
-                      "date": "Tue Aug 01 22:04:54 GMT+00:00 2017"
+                      "date": "Sat Sep 23 00:40:39 GMT+02:00 2017",
+                      "longitude": 20.404035630554926,
+                      "latitude": 44.84603711446953
+                    }
+                  ],
+                  "bluetooth": [],
+                  "wifi": [
+                    {
+                      "date": "Sat Sep 23 00:39:43 GMT+02:00 2017",
+                      "devices": "[guest.caenazzo.com, Spile10, cvelezemun, anaradmilo, TP-LINK_A75AFC, , bd132c]"
                     },
                     {
-                      "longitude": -122.084,
-                      "latitude": 12,
-                      "date": "Tue Aug 01 22:04:58 GMT+00:00 2017"
+                      "date": "Sat Sep 23 00:39:48 GMT+02:00 2017",
+                      "devices": "[guest.caenazzo.com, Spile10, cvelezemun, anaradmilo, TP-LINK_A75AFC, , bd132c]"
+                    },
+                    {
+                      "date": "Sat Sep 23 00:40:49 GMT+02:00 2017",
+                      "devices": "[guest.caenazzo.com, Spile10, cvelezemun, anaradmilo, , MilaT]"
+                    },
+                    {
+                      "date": "Sat Sep 23 00:41:34 GMT+02:00 2017",
+                      "devices": "[guest.caenazzo.com, Spile10, cvelezemun, anaradmilo, , MilaT]"
+                    },
+                    {
+                      "date": "Sat Sep 23 00:41:49 GMT+02:00 2017",
+                      "devices": "[guest.caenazzo.com, Spile10, cvelezemun, anaradmilo, ]"
                     }
                   ]
                 },
                 {
-                  "type": "Climbing stairs",
-                  "start": "Tue Aug 01 22:07:06 GMT+00:00 2017",
-                  "end": "Tue Aug 01 22:07:15 GMT+00:00 2017",
+                  "type": "Walking",
+                  "start": "Sat Sep 23 00:51:59 GMT+02:00 2017",
+                  "end": "Sat Sep 23 00:53:40 GMT+02:00 2017",
                   "gps": [
                     {
-                      "longitude": -122.084,
-                      "latitude": 43,
-                      "date": "Tue Aug 01 22:07:09 GMT+00:00 2017"
+                      "date": "Sat Sep 23 00:52:13 GMT+02:00 2017",
+                      "longitude": 20.404162768344822,
+                      "latitude": 44.846115213222596
                     },
                     {
-                      "longitude": -122.084,
-                      "latitude": 3,
-                      "date": "Tue Aug 01 22:07:13 GMT+00:00 2017"
+                      "date": "Sat Sep 23 00:53:10 GMT+02:00 2017",
+                      "longitude": 20.403976028010643,
+                      "latitude": 44.84580095619349
+                    },
+                    {
+                      "date": "Sat Sep 23 00:53:13 GMT+02:00 2017",
+                      "longitude": 20.404014163408664,
+                      "latitude": 44.845842049947656
+                    }
+                  ],
+                  "bluetooth": [
+                    {
+                      "date": "Sat Sep 23 00:53:23 GMT+02:00 2017",
+                      "device": "Galaxy J5"
+                    },
+                    {
+                      "date": "Sat Sep 23 00:53:25 GMT+02:00 2017",
+                      "device": "Milak J5"
+                    }
+                  ],
+                  "wifi": [
+                    {
+                      "date": "Sat Sep 23 00:52:08 GMT+02:00 2017",
+                      "devices": "[guest.caenazzo.com, Spile10, cvelezemun, , bd132c, anaradmilo, TP-LINK_A75AFC, ASUS_Home]"
+                    },
+                    {
+                      "date": "Sat Sep 23 00:52:09 GMT+02:00 2017",
+                      "devices": "[guest.caenazzo.com, Spile10, cvelezemun, , bd132c, anaradmilo, TP-LINK_A75AFC, HG532e-1D6FDB]"
+                    },
+                    {
+                      "date": "Sat Sep 23 00:53:37 GMT+02:00 2017",
+                      "devices": "[guest.caenazzo.com, Spile10, cvelezemun, , bd132c, anaradmilo, HG532e-1D6FDB, TP-LINK_A75AFC, ASUS_Home]"
                     }
                   ]
                 }
@@ -215,21 +254,32 @@ public class SelectActivity extends AppCompatActivity {
                     JSONArray gpsJson = new JSONArray();
                     for (GPSData sens : act.getGpsData()) {
                         JSONObject gpsLocJson = new JSONObject();
+                        gpsLocJson.put("date", sens.getTimestamp());
                         gpsLocJson.put("longitude", sens.getLongitude());
                         gpsLocJson.put("latitude", sens.getLatitude());
-                        gpsLocJson.put("date", sens.getTimestamp());
                         gpsJson.put(gpsLocJson);
                     }
                     jsonAct.put("gps", gpsJson);
 
                     // Bluetooth activity data
                     JSONArray blueJson = new JSONArray();
-                    for (GPSData sens : act.getGpsData()) {
+                    for (BluetoothData sens : act.getBluetoothData()) {
                         JSONObject blueDeviceJson = new JSONObject();
                         blueDeviceJson.put("date", sens.getTimestamp());
+                        blueDeviceJson.put("device", sens.getDevice());
                         blueJson.put(blueDeviceJson);
                     }
                     jsonAct.put("bluetooth", blueJson);
+
+                    // Wifi data
+                    JSONArray wifiJson = new JSONArray();
+                    for (WifiData sens : act.getWifiData()) {
+                        JSONObject wifiDeviceJson = new JSONObject();
+                        wifiDeviceJson.put("date", sens.getTimestamp());
+                        wifiDeviceJson.put("devices", sens.getDevices());
+                        wifiJson.put(wifiDeviceJson);
+                    }
+                    jsonAct.put("wifi", wifiJson);
 
                     activitiesJson.put(jsonAct);
                 }
@@ -237,6 +287,8 @@ public class SelectActivity extends AppCompatActivity {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
+
+            //String json = jsonParam.toString();
 
             try {
                 //local Wampserver test
