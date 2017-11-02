@@ -13,6 +13,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -239,6 +240,7 @@ public class SelectActivity extends AppCompatActivity {
             try {
                 SharedPreferences prefs = getSharedPreferences("LOCAL_DATA", 0);
                 jsonParam.put("ID", Integer.valueOf(prefs.getString("user_id", "0")));
+                //jsonParam.put("uirId", Integer.valueOf(prefs.getString("user_id", "0")));
 
                 Date now = new Date();
                 jsonParam.put("date", now.toString());
@@ -246,7 +248,7 @@ public class SelectActivity extends AppCompatActivity {
                 for (ActivityData act : this.activities) {
                     // Global activity data
                     JSONObject jsonAct = new JSONObject();
-                    jsonAct.put("type", act.getActivity_name());
+                    jsonAct.put("type", act.getActivityEnum());
                     jsonAct.put("start", act.getActivity_start_date().toString());
                     jsonAct.put("end", act.getActivity_end_date().toString());
 
@@ -259,7 +261,7 @@ public class SelectActivity extends AppCompatActivity {
                         gpsLocJson.put("latitude", sens.getLatitude());
                         gpsJson.put(gpsLocJson);
                     }
-                    jsonAct.put("gps", gpsJson);
+                    jsonAct.put("gpss", gpsJson);
 
                     // Bluetooth activity data
                     JSONArray blueJson = new JSONArray();
@@ -269,17 +271,18 @@ public class SelectActivity extends AppCompatActivity {
                         blueDeviceJson.put("device", sens.getDevice());
                         blueJson.put(blueDeviceJson);
                     }
-                    jsonAct.put("bluetooth", blueJson);
+                    jsonAct.put("bluetooths", blueJson);
 
                     // Wifi data
                     JSONArray wifiJson = new JSONArray();
                     for (WifiData sens : act.getWifiData()) {
                         JSONObject wifiDeviceJson = new JSONObject();
                         wifiDeviceJson.put("date", sens.getTimestamp());
-                        wifiDeviceJson.put("devices", sens.getDevices());
+                        //wifiDeviceJson.put("devices", sens.getDevices());
+                        wifiDeviceJson.put("device", sens.getDevices());
                         wifiJson.put(wifiDeviceJson);
                     }
-                    jsonAct.put("wifi", wifiJson);
+                    jsonAct.put("wifis", wifiJson);
 
                     activitiesJson.put(jsonAct);
                 }

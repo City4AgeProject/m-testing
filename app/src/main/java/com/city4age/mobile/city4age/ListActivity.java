@@ -8,8 +8,10 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ExpandableListAdapter;
 import android.widget.ExpandableListView;
+import android.widget.ImageButton;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -30,6 +32,8 @@ public class ListActivity extends AppCompatActivity {
     List<String> listDataHeader;
     HashMap<String, List<ActivityData>> listDataChild;
 
+    ImageButton logoButton;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,6 +46,16 @@ public class ListActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         Drawable drawable = ContextCompat.getDrawable(getApplicationContext(),R.drawable.c4a_menu_icon);
         myToolbar.setOverflowIcon(drawable);
+
+        // logo link to home
+        logoButton = (ImageButton) findViewById(R.id.my_toolbar_logo);
+        logoButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                Intent intentLoadSelectActivity = new Intent(ListActivity.this, SelectActivity.class);
+                startActivity(intentLoadSelectActivity);
+            }
+        });
 
         // Get the list view
         expListView = (ExpandableListView) findViewById(R.id.activity_exp_list);
@@ -78,6 +92,7 @@ public class ListActivity extends AppCompatActivity {
         item0101.setActivity_start_date(new Date());
         item0101.setActivity_end_date(new Date());
         item0101.setActivity_description("WALKING AT SLOW OR NORMAL PACE");
+        item0101.setActivityEnum("walking");
         Motility.add(item0101);
 
         ActivityData item0102 = new ActivityData();
@@ -86,6 +101,7 @@ public class ListActivity extends AppCompatActivity {
         item0102.setActivity_start_date(new Date());
         item0102.setActivity_end_date(new Date());
         item0102.setActivity_description("");
+        item0102.setActivityEnum("climbing_stairs");
         Motility.add(item0102);
 
         ActivityData item0103 = new ActivityData();
@@ -94,6 +110,7 @@ public class ListActivity extends AppCompatActivity {
         item0103.setActivity_start_date(new Date());
         item0103.setActivity_end_date(new Date());
         item0103.setActivity_description("");
+        item0103.setActivityEnum("still-moving");
         Motility.add(item0103);
 
         ActivityData item0104 = new ActivityData();
@@ -102,18 +119,49 @@ public class ListActivity extends AppCompatActivity {
         item0104.setActivity_start_date(new Date());
         item0104.setActivity_end_date(new Date());
         item0104.setActivity_description("");
+        item0104.setActivityEnum("moving_rooms");
         Motility.add(item0104);
 
         listDataChild.put(listDataHeader.get(0), Motility);
 
         List<ActivityData> PhysicalActivity = new ArrayList<ActivityData>();
+
         ActivityData item0201 = new ActivityData();
         item0201.setId(201);
-        item0201.setActivity_name("Test activity");
+        item0201.setActivity_name("Exercise in place");
         item0201.setActivity_start_date(new Date());
         item0201.setActivity_end_date(new Date());
         item0201.setActivity_description("");
+        item0201.setActivityEnum("exercise_place");
         PhysicalActivity.add(item0201);
+
+        ActivityData item0202 = new ActivityData();
+        item0202.setId(202);
+        item0202.setActivity_name("Bicycle");
+        item0202.setActivity_start_date(new Date());
+        item0202.setActivity_end_date(new Date());
+        item0202.setActivity_description("");
+        item0202.setActivityEnum("bicycle");
+        PhysicalActivity.add(item0202);
+
+        ActivityData item0203 = new ActivityData();
+        item0203.setId(203);
+        item0203.setActivity_name("Swimming");
+        item0203.setActivity_start_date(new Date());
+        item0203.setActivity_end_date(new Date());
+        item0203.setActivity_description("");
+        item0203.setActivityEnum("swimming");
+        PhysicalActivity.add(item0203);
+
+        ActivityData item0204 = new ActivityData();
+        item0204.setId(204);
+        item0204.setActivity_name("Running");
+        item0204.setActivity_start_date(new Date());
+        item0204.setActivity_end_date(new Date());
+        item0204.setActivity_description("");
+        item0204.setActivityEnum("running");
+        PhysicalActivity.add(item0204);
+
         listDataChild.put(listDataHeader.get(1), PhysicalActivity);
 
         List<ActivityData> BasicActivitiesOfDailyLiving = new ArrayList<ActivityData>();
@@ -124,6 +172,7 @@ public class ListActivity extends AppCompatActivity {
         item0301.setActivity_start_date(new Date());
         item0301.setActivity_end_date(new Date());
         item0301.setActivity_description("");
+        item0301.setActivityEnum("bathing-showering");
         BasicActivitiesOfDailyLiving.add(item0301);
 
         ActivityData item0302 = new ActivityData();
@@ -132,6 +181,7 @@ public class ListActivity extends AppCompatActivity {
         item0302.setActivity_start_date(new Date());
         item0302.setActivity_end_date(new Date());
         item0302.setActivity_description("");
+        item0302.setActivityEnum("dressing");
         BasicActivitiesOfDailyLiving.add(item0302);
 
         ActivityData item0303 = new ActivityData();
@@ -140,6 +190,7 @@ public class ListActivity extends AppCompatActivity {
         item0303.setActivity_start_date(new Date());
         item0303.setActivity_end_date(new Date());
         item0303.setActivity_description("");
+        item0303.setActivityEnum("self-feeding");
         BasicActivitiesOfDailyLiving.add(item0303);
 
         ActivityData item0304 = new ActivityData();
@@ -148,6 +199,7 @@ public class ListActivity extends AppCompatActivity {
         item0304.setActivity_start_date(new Date());
         item0304.setActivity_end_date(new Date());
         item0304.setActivity_description("");
+        item0304.setActivityEnum("personal_hygiene");
         BasicActivitiesOfDailyLiving.add(item0304);
 
         ActivityData item0305 = new ActivityData();
@@ -156,6 +208,7 @@ public class ListActivity extends AppCompatActivity {
         item0305.setActivity_start_date(new Date());
         item0305.setActivity_end_date(new Date());
         item0305.setActivity_description("");
+        item0305.setActivityEnum("toilet_hygiene");
         BasicActivitiesOfDailyLiving.add(item0305);
 
         ActivityData item0306 = new ActivityData();
@@ -164,6 +217,7 @@ public class ListActivity extends AppCompatActivity {
         item0306.setActivity_start_date(new Date());
         item0306.setActivity_end_date(new Date());
         item0306.setActivity_description("");
+        item0306.setActivityEnum("going_out");
         BasicActivitiesOfDailyLiving.add(item0306);
 
         listDataChild.put(listDataHeader.get(2), BasicActivitiesOfDailyLiving);
@@ -176,6 +230,7 @@ public class ListActivity extends AppCompatActivity {
         item0401.setActivity_start_date(new Date());
         item0401.setActivity_end_date(new Date());
         item0401.setActivity_description("");
+        item0401.setActivityEnum("preparing_food");
         InstrumentalActivitiesOfDailyLiving.add(item0401);
 
         ActivityData item0402 = new ActivityData();
@@ -184,6 +239,7 @@ public class ListActivity extends AppCompatActivity {
         item0402.setActivity_start_date(new Date());
         item0402.setActivity_end_date(new Date());
         item0402.setActivity_description("");
+        item0402.setActivityEnum("housekeeping");
         InstrumentalActivitiesOfDailyLiving.add(item0402);
 
         ActivityData item0403 = new ActivityData();
@@ -192,55 +248,71 @@ public class ListActivity extends AppCompatActivity {
         item0403.setActivity_start_date(new Date());
         item0403.setActivity_end_date(new Date());
         item0403.setActivity_description("");
+        item0403.setActivityEnum("doing_laundry");
         InstrumentalActivitiesOfDailyLiving.add(item0403);
 
         ActivityData item0404 = new ActivityData();
         item0404.setId(404);
-        item0404.setActivity_name("New media communication (skype, messenger, facebook, whatsapp...)");
+        item0404.setActivity_name("Phone usage");
         item0404.setActivity_start_date(new Date());
         item0404.setActivity_end_date(new Date());
         item0404.setActivity_description("");
+        item0404.setActivityEnum("phone_usage");
         InstrumentalActivitiesOfDailyLiving.add(item0404);
 
         ActivityData item0405 = new ActivityData();
         item0405.setId(405);
-        item0405.setActivity_name("Shopping groceries");
+        item0405.setActivity_name("New media communication (Skype, Messenger, Facebook, WhatsApp...)");
         item0405.setActivity_start_date(new Date());
         item0405.setActivity_end_date(new Date());
         item0405.setActivity_description("");
+        item0405.setActivityEnum("new_media");
         InstrumentalActivitiesOfDailyLiving.add(item0405);
 
         ActivityData item0406 = new ActivityData();
         item0406.setId(406);
-        item0406.setActivity_name("Shopping other");
+        item0406.setActivity_name("Shopping groceries");
         item0406.setActivity_start_date(new Date());
         item0406.setActivity_end_date(new Date());
         item0406.setActivity_description("");
+        item0406.setActivityEnum("shopping_groceries");
         InstrumentalActivitiesOfDailyLiving.add(item0406);
 
         ActivityData item0407 = new ActivityData();
         item0407.setId(407);
-        item0407.setActivity_name("Using public transport");
+        item0407.setActivity_name("Shopping other");
         item0407.setActivity_start_date(new Date());
         item0407.setActivity_end_date(new Date());
         item0407.setActivity_description("");
+        item0407.setActivityEnum("shopping_other");
         InstrumentalActivitiesOfDailyLiving.add(item0407);
 
         ActivityData item0408 = new ActivityData();
         item0408.setId(408);
-        item0408.setActivity_name("Using own transport");
+        item0408.setActivity_name("Using public transport");
         item0408.setActivity_start_date(new Date());
         item0408.setActivity_end_date(new Date());
         item0408.setActivity_description("");
+        item0408.setActivityEnum("public_transport");
         InstrumentalActivitiesOfDailyLiving.add(item0408);
 
         ActivityData item0409 = new ActivityData();
         item0409.setId(409);
-        item0409.setActivity_name("Taking medication");
+        item0409.setActivity_name("Using own transport");
         item0409.setActivity_start_date(new Date());
         item0409.setActivity_end_date(new Date());
         item0409.setActivity_description("");
+        item0409.setActivityEnum("own_transport");
         InstrumentalActivitiesOfDailyLiving.add(item0409);
+
+        ActivityData item0410 = new ActivityData();
+        item0410.setId(410);
+        item0410.setActivity_name("Taking medication");
+        item0410.setActivity_start_date(new Date());
+        item0410.setActivity_end_date(new Date());
+        item0410.setActivity_description("");
+        item0410.setActivityEnum("taking_medication");
+        InstrumentalActivitiesOfDailyLiving.add(item0410);
 
         listDataChild.put(listDataHeader.get(3), InstrumentalActivitiesOfDailyLiving);
 
@@ -252,6 +324,7 @@ public class ListActivity extends AppCompatActivity {
         item0501.setActivity_start_date(new Date());
         item0501.setActivity_end_date(new Date());
         item0501.setActivity_description("");
+        item0501.setActivityEnum("visiting_family");
         Socialization.add(item0501);
 
         ActivityData item0502 = new ActivityData();
@@ -260,6 +333,7 @@ public class ListActivity extends AppCompatActivity {
         item0502.setActivity_start_date(new Date());
         item0502.setActivity_end_date(new Date());
         item0502.setActivity_description("");
+        item0502.setActivityEnum("visiting_friends");
         Socialization.add(item0502);
 
         ActivityData item0503 = new ActivityData();
@@ -268,6 +342,7 @@ public class ListActivity extends AppCompatActivity {
         item0503.setActivity_start_date(new Date());
         item0503.setActivity_end_date(new Date());
         item0503.setActivity_description("");
+        item0503.setActivityEnum("senior_centers");
         Socialization.add(item0503);
 
         ActivityData item0504 = new ActivityData();
@@ -276,6 +351,7 @@ public class ListActivity extends AppCompatActivity {
         item0504.setActivity_start_date(new Date());
         item0504.setActivity_end_date(new Date());
         item0504.setActivity_description("");
+        item0504.setActivityEnum("other_social");
         Socialization.add(item0504);
 
         listDataChild.put(listDataHeader.get(4), Socialization);
@@ -288,6 +364,7 @@ public class ListActivity extends AppCompatActivity {
         item0601.setActivity_start_date(new Date());
         item0601.setActivity_end_date(new Date());
         item0601.setActivity_description("");
+        item0601.setActivityEnum("culture-entertainment");
         Cultural.add(item0601);
 
         ActivityData item0602 = new ActivityData();
@@ -296,6 +373,7 @@ public class ListActivity extends AppCompatActivity {
         item0602.setActivity_start_date(new Date());
         item0602.setActivity_end_date(new Date());
         item0602.setActivity_description("");
+        item0602.setActivityEnum("watching_tv");
         Cultural.add(item0602);
 
         ActivityData item0603 = new ActivityData();
@@ -304,6 +382,7 @@ public class ListActivity extends AppCompatActivity {
         item0603.setActivity_start_date(new Date());
         item0603.setActivity_end_date(new Date());
         item0603.setActivity_description("");
+        item0603.setActivityEnum("reading");
         Cultural.add(item0603);
 
         listDataChild.put(listDataHeader.get(5), Cultural);

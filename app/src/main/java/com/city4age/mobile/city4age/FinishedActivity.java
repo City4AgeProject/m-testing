@@ -8,6 +8,8 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageButton;
 import android.widget.ListView;
 
 import com.city4age.mobile.city4age.Adapters.FinishedActivitiesListViewAdapter;
@@ -28,6 +30,8 @@ public class FinishedActivity extends AppCompatActivity {
     JSONToFileHelper dataManipulation;
     List<ActivityData> listOfActivities;
 
+    ImageButton logoButton;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,6 +40,16 @@ public class FinishedActivity extends AppCompatActivity {
         Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
         setSupportActionBar(myToolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
+
+        // logo link to home
+                logoButton = (ImageButton) findViewById(R.id.my_toolbar_logo);
+                logoButton.setOnClickListener(new View.OnClickListener(){
+                    @Override
+                    public void onClick(View v) {
+                        Intent intentLoadSelectActivity = new Intent(FinishedActivity.this, SelectActivity.class);
+                        startActivity(intentLoadSelectActivity);
+            }
+        });
 
         Drawable drawable = ContextCompat.getDrawable(getApplicationContext(),R.drawable.c4a_menu_icon);
         myToolbar.setOverflowIcon(drawable);
@@ -84,4 +98,6 @@ public class FinishedActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
+
 }

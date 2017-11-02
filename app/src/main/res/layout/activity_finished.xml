@@ -15,10 +15,12 @@
         android:popupTheme="@style/ThemeOverlay.AppCompat.Light"
         android:theme="@style/ThemeOverlay.AppCompat.ActionBar">
 
-        <ImageView
+        <ImageButton
             android:id="@+id/my_toolbar_logo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:onClick="go_home"
             android:src="@drawable/city4age_logo" />
 
     </android.support.v7.widget.Toolbar>
@@ -26,7 +28,7 @@
     <LinearLayout
         android:id="@+id/ll_labels"
         android:layout_width="match_parent"
-        android:layout_height="30dp"
+        android:layout_height="40dp"
         android:layout_below="@+id/my_toolbar"
         android:orientation="horizontal"
         android:weightSum="3"
@@ -42,7 +44,7 @@
             android:paddingLeft="5dp"/>
 
         <TextView
-            android:layout_width="90dp"
+            android:layout_width="50dp"
             android:layout_height="wrap_content"
             android:layout_weight="3"
             android:text="Activity name"
@@ -57,16 +59,30 @@
             android:textColor="@color/c4a_gray" />
 
         <TextView
-            android:layout_width="70dp"
+            android:layout_width="60dp"
             android:layout_height="wrap_content"
             android:text="End date"
             android:textAlignment="textStart"
             android:textColor="@color/c4a_gray" />
 
         <TextView
-            android:layout_width="90dp"
+            android:layout_width="60dp"
             android:layout_height="wrap_content"
             android:text="Cords"
+            android:textAlignment="center"
+            android:textColor="@color/c4a_gray" />
+
+        <TextView
+            android:layout_width="40dp"
+            android:layout_height="wrap_content"
+            android:text="BT"
+            android:textAlignment="center"
+            android:textColor="@color/c4a_gray" />
+
+        <TextView
+            android:layout_width="40dp"
+            android:layout_height="wrap_content"
+            android:text="Wifi"
             android:textAlignment="center"
             android:textColor="@color/c4a_gray" />
 

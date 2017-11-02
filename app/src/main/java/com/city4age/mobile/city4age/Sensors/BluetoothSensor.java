@@ -21,6 +21,31 @@ public class BluetoothSensor extends Service {
 
     BluetoothAdapter mBluetoothAdapter;
 
+    // Create a BroadcastReceiver for ACTION_FOUND.
+    private final BroadcastReceiver mBluetoothEnableReceiver = new BroadcastReceiver() {
+        public void onReceive(Context context, Intent intent) {
+            String action = intent.getAction();
+            if (action.equals(BluetoothAdapter.ACTION_STATE_CHANGED)) {
+                final int state = intent.getIntExtra(BluetoothAdapter.EXTRA_STATE, BluetoothAdapter.ERROR);
+
+                switch (state){
+                    case BluetoothAdapter.STATE_OFF:
+                        Log.d(TAG, "BLUETOOTH: STATE OFF");
+                        break;
+                    case BluetoothAdapter.STATE_TURNING_OFF:
+                        Log.d(TAG, "BLUETOOTH: STATE TURNING OFF");
+                        break;
+                    case BluetoothAdapter.STATE_ON:
+                        Log.d(TAG, "BLUETOOTH: STATE ON");
+                        startDiscovery();
+                        break;
+                    case BluetoothAdapter.STATE_TURNING_ON:
+                        Log.d(TAG, "BLUETOOTH: STATE TURNING ON");
+                        break;
+                }
+            }
+        }
+    };
     /**
      * Broadcast Receiver for listing devices that are not yet paired
      * - Executed by btnDiscover() method.
@@ -28,11 +53,17 @@ public class BluetoothSensor extends Service {
     private BroadcastReceiver mBroadcastReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            Log.d(TAG, "onReceive: ACTION_FOUND.");
+            Log.d(TAG, "==BLUETOOTH: ACTION_FOUND.");
 
-            if (intent.getAction().equals(BluetoothDevice.ACTION_FOUND)) {
+            if (BluetoothAdapter.ACTION_DISCOVERY_STARTED.equals(intent.getAction())) {
+                Log.d(TAG, "==BLUETOOTH: STARTED.");
+            } else if (BluetoothAdapter.ACTION_DISCOVERY_FINISHED.equals(intent.getAction())) {
+                //discovery finishes, dismis progress dialog
+                Log.d(TAG, "==BLUETOOTH: DONE.");
+                startDiscovery();
+            } else if (BluetoothDevice.ACTION_FOUND.equals(intent.getAction())) {
                 BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
-                Log.d(TAG, "onReceive: " + device.getName() + ": " + device.getAddress());
+                Log.d(TAG, "==BLUETOOTH: " + device.getName() + ": " + device.getAddress());
 
                 Intent i = new Intent("bluetooth_update");
                 Bundle b = new Bundle();
@@ -50,22 +81,21 @@ public class BluetoothSensor extends Service {
     }
 
     public void startDiscovery() {
-        Log.d(TAG, "Looking for unpaired devices.");
+        Log.d(TAG, "==BLUETOOTH: Looking for unpaired devices.");
 
         if (mBluetoothAdapter.isDiscovering()) {
-            mBluetoothAdapter.isDiscovering();
-            Log.d(TAG, "Canceling discovery.");
+            Log.d(TAG, "==BLUETOOTH: Canceling discovery.");
 
-            mBluetoothAdapter.startDiscovery();
-            IntentFilter discoverDevicesIntent = new IntentFilter(BluetoothDevice.ACTION_FOUND);
-            registerReceiver(mBroadcastReceiver, discoverDevicesIntent);
+            mBluetoothAdapter.cancelDiscovery();
         }
-        if (!mBluetoothAdapter.isDiscovering()){
 
-            mBluetoothAdapter.startDiscovery();
-            IntentFilter discoverDevicesIntent = new IntentFilter(BluetoothDevice.ACTION_FOUND);
-            registerReceiver(mBroadcastReceiver, discoverDevicesIntent);
-        }
+        mBluetoothAdapter.startDiscovery();
+
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(BluetoothDevice.ACTION_FOUND);
+        filter.addAction(BluetoothAdapter.ACTION_DISCOVERY_STARTED);
+        filter.addAction(BluetoothAdapter.ACTION_DISCOVERY_FINISHED);
+        registerReceiver(mBroadcastReceiver, filter);
     }
 
     @Override
@@ -73,20 +103,22 @@ public class BluetoothSensor extends Service {
         mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
 
         if (mBluetoothAdapter == null) {
-            Log.d(TAG, "enableDisableBT: Does not have BT capabilities.");
-        } else if (!mBluetoothAdapter.isEnabled()){
+            Log.d(TAG, "==BLUETOOTH:: Does not have BT capabilities.");
+        } else if (!mBluetoothAdapter.isEnabled()) {
+            IntentFilter BTIntent = new IntentFilter(BluetoothAdapter.ACTION_STATE_CHANGED);
+            registerReceiver(mBluetoothEnableReceiver, BTIntent);
             Log.d(TAG, "enableDisableBT: enabling BT.");
             mBluetoothAdapter.enable();
+        } else if (mBluetoothAdapter.isEnabled()) {
+            startDiscovery();
         }
-
-        startDiscovery();
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
         if (mBluetoothAdapter.isEnabled()){
-            Log.d(TAG, "enableDisableBT: disabling BT.");
+            Log.d(TAG, "==BLUETOOTH: disabling BT.");
             mBluetoothAdapter.disable();
         }
 

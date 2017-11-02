@@ -8,7 +8,9 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import com.city4age.mobile.city4age.Model.ActivityData;
+import com.city4age.mobile.city4age.Model.BluetoothData;
 import com.city4age.mobile.city4age.Model.GPSData;
+import com.city4age.mobile.city4age.Model.WifiData;
 import com.city4age.mobile.city4age.R;
 
 import java.util.List;
@@ -41,6 +43,11 @@ public class FinishedActivitiesListViewAdapter extends ArrayAdapter {
             holder.date = (TextView) convertView.findViewById(R.id.tv_finished_activity_start_date);
             holder.date2 = (TextView) convertView.findViewById(R.id.tv_finished_activity_end_date);
             holder.cordinates = (TextView) convertView.findViewById(R.id.tv_finished_activity_coordinates);
+
+            // PROBA
+            holder.bt = (TextView) convertView.findViewById(R.id.tv_finished_activity_bt);
+            holder.wifi = (TextView) convertView.findViewById(R.id.tv_finished_activity_wifi);
+
             // initialize textview
             convertView.setTag(holder);
         } else {
@@ -58,18 +65,37 @@ public class FinishedActivitiesListViewAdapter extends ArrayAdapter {
         // set the name to the text;
 
         StringBuilder cords = new StringBuilder();
-
         for (GPSData sensData:in.getGpsData()) {
             cords.append(sensData.getLatitude());
-            cords.append(',');
+            cords.append("\n");
+            cords.append("|");
+            cords.append("\n");
             cords.append(sensData.getLongitude());
-            cords.append('|');
+            cords.append("\n");
+            cords.append("\n");
+        }
+
+        // PROBA
+        StringBuilder bt = new StringBuilder();
+        for (BluetoothData sensData:in.getBluetoothData()) {
+            bt.append(sensData.getDevice());
+            bt.append("\n");
+            bt.append("\n");
+        }
+
+        // PROBA
+        StringBuilder wifi = new StringBuilder();
+        for (WifiData sensData:in.getWifiData()) {
+            wifi.append(sensData.getDevices());
         }
 
         holder.cordinates.setText(cords.toString());
-
+        holder.bt.setText(bt.toString());
+        holder.wifi.setText(wifi.toString());
         return convertView;
     }
+
+
 
     private static class ViewHolder {
         TextView number;
@@ -77,5 +103,7 @@ public class FinishedActivitiesListViewAdapter extends ArrayAdapter {
         TextView date;
         TextView date2;
         TextView cordinates;
+        TextView bt;
+        TextView wifi;
     }
 }

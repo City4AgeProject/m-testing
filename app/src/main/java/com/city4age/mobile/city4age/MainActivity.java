@@ -42,7 +42,6 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 EditText usernameView = (EditText) findViewById(R.id.username);
                 EditText passwordView = (EditText) findViewById(R.id.password);
-
                 mAuthTask = new UserLoginTask(usernameView.getText().toString().trim(), passwordView.getText().toString().trim());
                 mAuthTask.execute((Void) null);
             }
@@ -92,13 +91,17 @@ public class MainActivity extends AppCompatActivity {
             }
 
             try {
-                status = result.getString("message").equals("success") && result.getString("responseCode").equals("10");
+                // status = result.getString("message").equals("success") && result.getString("responseCode").equals("10");
+                status = result.getString("responseCode").equals("200");
+
+
                 if (status) {
                     SharedPreferences prefs = getSharedPreferences("LOCAL_DATA", 0);
                     SharedPreferences.Editor editor = prefs.edit();
                     editor.putString("user_name", result.getString("displayName"));
                     //nope on mobile
-                    editor.putString("user_id", result.getString("ID"));
+                    //editor.putString("user_id", result.getString("ID"));
+                    editor.putString("user_id", result.getString("uirId"));
                     editor.apply();
                 }
             } catch (JSONException e) {

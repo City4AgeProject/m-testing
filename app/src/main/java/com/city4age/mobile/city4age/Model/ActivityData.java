@@ -12,6 +12,7 @@ public class ActivityData {
     private Date activity_start_date;
     private Date activity_end_date;
     private String activity_description;
+    private String activity_enum;
     private ArrayList<GPSData> gpsData;
     private ArrayList<BluetoothData> bluetoothData;
     private ArrayList<WifiData> wifiData;
@@ -20,6 +21,15 @@ public class ActivityData {
         gpsData = new ArrayList<GPSData>();
         bluetoothData = new ArrayList<BluetoothData>();
         wifiData = new ArrayList<WifiData>();
+        //activity_enum = "walking";
+    }
+
+    public String getActivityEnum() {
+        return activity_enum;
+    }
+
+    public void setActivityEnum(String activity_enum) {
+        this.activity_enum = activity_enum;
     }
 
     public ArrayList<GPSData> getGpsData() {
