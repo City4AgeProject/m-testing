@@ -22,6 +22,7 @@ import com.city4age.mobile.city4age.Helpers.JSONToFileHelper;
 import com.city4age.mobile.city4age.Model.ActivityData;
 import com.city4age.mobile.city4age.Model.BluetoothData;
 import com.city4age.mobile.city4age.Model.GPSData;
+import com.city4age.mobile.city4age.Model.RecognitionData;
 import com.city4age.mobile.city4age.Model.WifiData;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -152,7 +153,7 @@ public class SelectActivity extends AppCompatActivity {
                   "type": "Walking",
                   "start": "Sat Sep 23 00:39:29 GMT+02:00 2017",
                   "end": "Sat Sep 23 00:43:30 GMT+02:00 2017",
-                  "gps": [
+                  "gpss": [
                     {
                       "date": "Sat Sep 23 00:40:36 GMT+02:00 2017",
                       "longitude": 20.404110533433894,
@@ -164,8 +165,8 @@ public class SelectActivity extends AppCompatActivity {
                       "latitude": 44.84603711446953
                     }
                   ],
-                  "bluetooth": [],
-                  "wifi": [
+                  "bluetooths": [],
+                  "wifis": [
                     {
                       "date": "Sat Sep 23 00:39:43 GMT+02:00 2017",
                       "devices": "[guest.caenazzo.com, Spile10, cvelezemun, anaradmilo, TP-LINK_A75AFC, , bd132c]"
@@ -186,13 +187,14 @@ public class SelectActivity extends AppCompatActivity {
                       "date": "Sat Sep 23 00:41:49 GMT+02:00 2017",
                       "devices": "[guest.caenazzo.com, Spile10, cvelezemun, anaradmilo, ]"
                     }
-                  ]
+                  ],
+                  "recognitions": []
                 },
                 {
                   "type": "Walking",
                   "start": "Sat Sep 23 00:51:59 GMT+02:00 2017",
                   "end": "Sat Sep 23 00:53:40 GMT+02:00 2017",
-                  "gps": [
+                  "gpss": [
                     {
                       "date": "Sat Sep 23 00:52:13 GMT+02:00 2017",
                       "longitude": 20.404162768344822,
@@ -209,7 +211,7 @@ public class SelectActivity extends AppCompatActivity {
                       "latitude": 44.845842049947656
                     }
                   ],
-                  "bluetooth": [
+                  "bluetooths": [
                     {
                       "date": "Sat Sep 23 00:53:23 GMT+02:00 2017",
                       "device": "Galaxy J5"
@@ -219,7 +221,7 @@ public class SelectActivity extends AppCompatActivity {
                       "device": "Milak J5"
                     }
                   ],
-                  "wifi": [
+                  "wifis": [
                     {
                       "date": "Sat Sep 23 00:52:08 GMT+02:00 2017",
                       "devices": "[guest.caenazzo.com, Spile10, cvelezemun, , bd132c, anaradmilo, TP-LINK_A75AFC, ASUS_Home]"
@@ -231,6 +233,44 @@ public class SelectActivity extends AppCompatActivity {
                     {
                       "date": "Sat Sep 23 00:53:37 GMT+02:00 2017",
                       "devices": "[guest.caenazzo.com, Spile10, cvelezemun, , bd132c, anaradmilo, HG532e-1D6FDB, TP-LINK_A75AFC, ASUS_Home]"
+                    }
+                  ],
+                  "recognitions": [
+                    {
+                      "date": "Sat Sep 23 00:52:08 GMT+02:00 2017",
+                      "type": "InVehicle (100)"
+                    },
+                    {
+                      "date": "Sat Sep 23 00:52:09 GMT+02:00 2017",
+                      "type": "OnBicycle (66)"
+                    },
+                    {
+                      "date": "Sat Sep 23 00:52:09 GMT+02:00 2017",
+                      "type": "OnFoot (66)"
+                    },
+                    {
+                      "date": "Sat Sep 23 00:52:09 GMT+02:00 2017",
+                      "type": "Running (66)"
+                    },
+                    {
+                      "date": "Sat Sep 23 00:52:09 GMT+02:00 2017",
+                      "type": "Still (100)"
+                    },
+                    {
+                      "date": "Sat Sep 23 00:52:09 GMT+02:00 2017",
+                      "type": "Tilting (66)"
+                    },
+                    {
+                      "date": "Sat Sep 23 00:52:09 GMT+02:00 2017",
+                      "type": "Walking (66)"
+                    },
+                    {
+                      "date": "Sat Sep 23 00:52:09 GMT+02:00 2017",
+                      "type": "Unknown (100)"
+                    },
+                    {
+                      "date": "Sat Sep 23 00:52:09 GMT+02:00 2017",
+                      "type": "??? (100)"
                     }
                   ]
                 }
@@ -283,6 +323,16 @@ public class SelectActivity extends AppCompatActivity {
                         wifiJson.put(wifiDeviceJson);
                     }
                     jsonAct.put("wifis", wifiJson);
+
+                    // Activity data
+                    JSONArray recoJson = new JSONArray();
+                    for (RecognitionData rdata : act.getRecognitionData()) {
+                        JSONObject rdataJson = new JSONObject();
+                        rdataJson.put("date", rdata.getTimestamp());
+                        rdataJson.put("type", rdata.getType());
+                        recoJson.put(rdataJson);
+                    }
+                    jsonAct.put("recognitions", recoJson);
 
                     activitiesJson.put(jsonAct);
                 }

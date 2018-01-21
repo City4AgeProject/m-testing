@@ -1,6 +1,5 @@
 package com.city4age.mobile.city4age.Model;
 
-import java.util.ArrayList;
 import java.util.Date;
 
 /**
@@ -19,15 +18,7 @@ public class BluetoothData {
         return timestamp;
     }
 
-    public void setTimestamp(Date timestamp) {
-        this.timestamp = timestamp;
-    }
-
     public String getDevice() {
         return device;
-    }
-
-    public void setDevice(String device) {
-        this.device = device;
     }
 }

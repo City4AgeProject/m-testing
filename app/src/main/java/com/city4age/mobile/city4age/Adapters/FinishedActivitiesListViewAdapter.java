@@ -10,6 +10,7 @@ import android.widget.TextView;
 import com.city4age.mobile.city4age.Model.ActivityData;
 import com.city4age.mobile.city4age.Model.BluetoothData;
 import com.city4age.mobile.city4age.Model.GPSData;
+import com.city4age.mobile.city4age.Model.RecognitionData;
 import com.city4age.mobile.city4age.Model.WifiData;
 import com.city4age.mobile.city4age.R;
 
@@ -47,6 +48,7 @@ public class FinishedActivitiesListViewAdapter extends ArrayAdapter {
             // PROBA
             holder.bt = (TextView) convertView.findViewById(R.id.tv_finished_activity_bt);
             holder.wifi = (TextView) convertView.findViewById(R.id.tv_finished_activity_wifi);
+            holder.rd = (TextView) convertView.findViewById(R.id.tv_finished_activity_rd);
 
             // initialize textview
             convertView.setTag(holder);
@@ -89,13 +91,19 @@ public class FinishedActivitiesListViewAdapter extends ArrayAdapter {
             wifi.append(sensData.getDevices());
         }
 
+        // PROBA
+        StringBuilder rd = new StringBuilder();
+        for (RecognitionData recData:in.getRecognitionData()) {
+            rd.append(recData.getType());
+            rd.append("\n");
+        }
+
         holder.cordinates.setText(cords.toString());
         holder.bt.setText(bt.toString());
         holder.wifi.setText(wifi.toString());
+        holder.rd.setText(rd.toString());
         return convertView;
     }
-
-
 
     private static class ViewHolder {
         TextView number;
@@ -105,5 +113,6 @@ public class FinishedActivitiesListViewAdapter extends ArrayAdapter {
         TextView cordinates;
         TextView bt;
         TextView wifi;
+        TextView rd;
     }
 }

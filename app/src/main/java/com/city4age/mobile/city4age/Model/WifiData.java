@@ -19,15 +19,7 @@ public class WifiData {
         return timestamp;
     }
 
-    public void setTimestamp(Date timestamp) {
-        this.timestamp = timestamp;
-    }
-
     public ArrayList<String> getDevices() {
         return devices;
-    }
-
-    public void setDevices(ArrayList<String> devices) {
-        this.devices = devices;
     }
 }

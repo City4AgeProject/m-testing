@@ -46,7 +46,7 @@ public class BluetoothSensor extends Service {
             }
         }
     };
-    /**
+    /*
      * Broadcast Receiver for listing devices that are not yet paired
      * - Executed by btnDiscover() method.
      */
@@ -58,7 +58,7 @@ public class BluetoothSensor extends Service {
             if (BluetoothAdapter.ACTION_DISCOVERY_STARTED.equals(intent.getAction())) {
                 Log.d(TAG, "==BLUETOOTH: STARTED.");
             } else if (BluetoothAdapter.ACTION_DISCOVERY_FINISHED.equals(intent.getAction())) {
-                //discovery finishes, dismis progress dialog
+                //discovery finishes, dismiss progress dialog
                 Log.d(TAG, "==BLUETOOTH: DONE.");
                 startDiscovery();
             } else if (BluetoothDevice.ACTION_FOUND.equals(intent.getAction())) {

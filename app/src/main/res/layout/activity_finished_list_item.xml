@@ -66,4 +66,12 @@
         android:textAlignment="center"
         android:textColor="@color/c4a_gray" />
 
+    <TextView
+        android:id="@+id/tv_finished_activity_rd"
+        android:layout_width="40dp"
+        android:layout_height="wrap_content"
+        android:text="TextView"
+        android:textAlignment="center"
+        android:textColor="@color/c4a_gray" />
+
 </LinearLayout>

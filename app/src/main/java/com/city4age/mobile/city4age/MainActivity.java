@@ -21,6 +21,7 @@ import java.io.IOException;
  */
 
 public class MainActivity extends AppCompatActivity {
+
     protected Button loginBtn;
     private UserLoginTask mAuthTask = null;
 
@@ -66,13 +67,13 @@ public class MainActivity extends AppCompatActivity {
             //lventurin1
             try {
                 //real server test
-                //result = HttpHelper.getJSONFromUrl("http://c4adashboard.atc.gr/C4A-dashboard/rest/users/login/username/" + mEmail + "/password/" + mPass);
+                result = HttpHelper.getJSONFromUrl("http://c4adashboard.atc.gr/C4A-dashboard/rest/users/login/username/" + mEmail + "/password/" + mPass);
                 //local Glassfish server test
                 //result = HttpHelper.getJSONFromUrl("http://10.0.2.2:8080/C4A-dashboard/rest/users/login/username/" + mEmail + "/password/" + mPass);
                 //Andrija local machine test
                 //result = HttpHelper.getJSONFromUrl("http://172.28.43.159:8080/C4A-dashboard/rest/users/login/username/" + mEmail + "/password/" + mPass);
                 //server Madrid
-                result = HttpHelper.getJSONFromUrl("http://138.4.10.230:8000/C4A-dashboard/rest/users/login/username/" + mEmail + "/password/" + mPass);
+                //result = HttpHelper.getJSONFromUrl("http://138.4.10.230:8000/C4A-dashboard/rest/users/login/username/" + mEmail + "/password/" + mPass);
                 /*
                     {
                     "message": "success",

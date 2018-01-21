@@ -46,13 +46,11 @@
             android:id="@+id/welcome_msg"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:layout_marginRight="35dp"
             android:layout_marginBottom="10dp"
             android:textSize="32dp"
             android:textColor="@color/white"
-            android:textAlignment="textEnd"
-            android:text="Welcome to City4Age" />
+            android:textAlignment="center"
+            android:text="Welcome" />
 
     </LinearLayout>
 

@@ -16,12 +16,13 @@ public class ActivityData {
     private ArrayList<GPSData> gpsData;
     private ArrayList<BluetoothData> bluetoothData;
     private ArrayList<WifiData> wifiData;
+    private ArrayList<RecognitionData> recognitionData;
 
     public ActivityData() {
-        gpsData = new ArrayList<GPSData>();
-        bluetoothData = new ArrayList<BluetoothData>();
-        wifiData = new ArrayList<WifiData>();
-        //activity_enum = "walking";
+        gpsData = new ArrayList<>();
+        bluetoothData = new ArrayList<>();
+        wifiData = new ArrayList<>();
+        recognitionData = new ArrayList<>();
     }
 
     public String getActivityEnum() {
@@ -94,5 +95,13 @@ public class ActivityData {
 
     public void addWifiData(WifiData wifiData) {
         this.wifiData.add(wifiData);
+    }
+
+    public ArrayList<RecognitionData> getRecognitionData() {
+        return recognitionData;
+    }
+
+    public void addRecognitionData(RecognitionData recData) {
+        this.recognitionData.add(recData);
     }
 }

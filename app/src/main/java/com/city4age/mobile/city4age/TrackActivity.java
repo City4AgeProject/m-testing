@@ -1,18 +1,21 @@
 package com.city4age.mobile.city4age;
 
 import android.Manifest;
+import android.app.PendingIntent;
 import android.bluetooth.BluetoothDevice;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Handler;
 import android.os.SystemClock;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -29,9 +32,11 @@ import com.city4age.mobile.city4age.Helpers.JSONToFileHelper;
 import com.city4age.mobile.city4age.Model.ActivityData;
 import com.city4age.mobile.city4age.Model.BluetoothData;
 import com.city4age.mobile.city4age.Model.GPSData;
+import com.city4age.mobile.city4age.Model.RecognitionData;
 import com.city4age.mobile.city4age.Model.WifiData;
 import com.city4age.mobile.city4age.Sensors.BluetoothSensor;
 import com.city4age.mobile.city4age.Sensors.GPSSensor;
+import com.city4age.mobile.city4age.Sensors.RecognitionSensor;
 import com.city4age.mobile.city4age.Sensors.WifiSensor;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -41,6 +46,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by srdjan.milakovic on 08/07/2017.
@@ -81,6 +87,13 @@ public class TrackActivity extends AppCompatActivity {
         Bundle extras = getIntent().getExtras();
         activityJSON = extras.getString(ACTIVITY_DATA);
         activity = gson.fromJson(activityJSON, ActivityData.class);
+
+        /*
+        Integer id = activity.getId();
+        Map<Integer,Integer> map = JSONToFileHelper.loadMap(getApplicationContext());
+        map.put(id, map.get(id) + 1);
+        JSONToFileHelper.saveMap(getApplicationContext(), map);
+        */
 
         // Display activity info
         TextView activityDescription = (TextView) findViewById(R.id.activity_track_description);
@@ -152,12 +165,11 @@ public class TrackActivity extends AppCompatActivity {
 
                     String updatedListOfActivities = gson.toJson(listOfActivities);
                     JSONToFileHelper.saveData(getApplicationContext(), updatedListOfActivities);
-
                 } else {
-                    List<ActivityData> newListOfActivites = new ArrayList<ActivityData>();
-                    newListOfActivites.add(activity);
+                    List<ActivityData> newListOfActivities = new ArrayList<>();
+                    newListOfActivities.add(activity);
 
-                    String newListToSaveToFile = gson.toJson(newListOfActivites);
+                    String newListToSaveToFile = gson.toJson(newListOfActivities);
                     JSONToFileHelper.saveData(getApplicationContext(), newListToSaveToFile);
                 }
 
@@ -181,10 +193,11 @@ public class TrackActivity extends AppCompatActivity {
                 @Override
                 public void onReceive(Context context, Intent intent) {
                     String action = intent.getAction();
+                    Date date = new Date();
                     if (action.compareTo("location_update") == 0) {
                         Log.d("==Receiver", "location_update");
                         Bundle b = intent.getExtras();
-                        GPSData gpsData = new GPSData(new Date(),
+                        GPSData gpsData = new GPSData(date,
                                 b.getDouble("latitude"),
                                 b.getDouble("longitude")
                         );
@@ -193,13 +206,16 @@ public class TrackActivity extends AppCompatActivity {
                         BluetoothDevice device = intent.getExtras().getParcelable("device");
                         assert device != null;
                         Log.d("==Receiver", "bluetooth_update" + device.getName());
-                        BluetoothData btData = new BluetoothData(new Date(), device.getName());
+                        BluetoothData btData = new BluetoothData(date, device.getName());
                         activity.addBluetoothData(btData);
                     } else if (action.compareTo("wifi_update") == 0) {
                         String[] devices = intent.getExtras().getStringArray("devices");
                         assert devices != null;
-                        WifiData wifiData = new WifiData(new Date(), new ArrayList<String>(Arrays.asList(devices)));
+                        WifiData wifiData = new WifiData(date, new ArrayList<>(Arrays.asList(devices)));
                         activity.addWifiData(wifiData);
+                    } else if (action.compareTo("recognition_update") == 0) {
+                        RecognitionData recData = new RecognitionData(date, intent.getExtras().getString("type"));
+                        activity.addRecognitionData(recData);
                     }
                 }
             };
@@ -209,6 +225,7 @@ public class TrackActivity extends AppCompatActivity {
         sensorFilterIntent.addAction("location_update");
         sensorFilterIntent.addAction("bluetooth_update");
         sensorFilterIntent.addAction("wifi_update");
+        sensorFilterIntent.addAction("recognition_update");
         registerReceiver(broadcastReceiver, sensorFilterIntent);
     }
 
@@ -240,15 +257,18 @@ public class TrackActivity extends AppCompatActivity {
     }
 
     public void activateSensors() {
+
         startService(new Intent(getApplicationContext(), GPSSensor.class));
         startService(new Intent(getApplicationContext(), BluetoothSensor.class));
         startService(new Intent(getApplicationContext(), WifiSensor.class));
+        startService(new Intent(getApplicationContext(), RecognitionSensor.class));
     }
 
     public void deactivateSensors() {
         stopService(new Intent(getApplicationContext(), GPSSensor.class));
         stopService(new Intent(getApplicationContext(), BluetoothSensor.class));
         stopService(new Intent(getApplicationContext(), WifiSensor.class));
+        stopService(new Intent(getApplicationContext(), RecognitionSensor.class));
     }
 
     public Runnable updateTimer = new Runnable() {
