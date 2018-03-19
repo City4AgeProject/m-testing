@@ -319,7 +319,7 @@ public class SelectActivity extends AppCompatActivity {
                         JSONObject wifiDeviceJson = new JSONObject();
                         wifiDeviceJson.put("date", sens.getTimestamp());
                         //wifiDeviceJson.put("devices", sens.getDevices());
-                        wifiDeviceJson.put("device", sens.getDevices());
+                        wifiDeviceJson.put("devices", sens.getDevices());
                         wifiJson.put(wifiDeviceJson);
                     }
                     jsonAct.put("wifis", wifiJson);
@@ -346,10 +346,12 @@ public class SelectActivity extends AppCompatActivity {
             try {
                 //local Wampserver test
                 //result = HttpHelper.postJSONToUrl("http://10.0.2.2:80/c4a.php", jsonParam);
-                //Andrija local machine test
-                //result = HttpHelper.postJSONToUrl("http://172.28.43.159:8080/C4A-dashboard/rest/android/postFromAndroid", jsonParam);
                 //server Madrid
                 result = HttpHelper.postJSONToUrl("http://138.4.10.230:8000/C4A-dashboard/rest/android/postFromAndroid", jsonParam);
+                //nas server Aca
+                //result = HttpHelper.postJSONToUrl("http://109.111.225.84:8082/C4A-dashboard/rest/android/postFromAndroid", jsonParam);
+                //nas server Aca2
+                //result = HttpHelper.postJSONToUrl("http://109.111.225.84:8080/C4A-dashboard/rest/android/postFromAndroid", jsonParam);
             } catch (JSONException e) {
                 return false;
             } catch (IOException e) {
