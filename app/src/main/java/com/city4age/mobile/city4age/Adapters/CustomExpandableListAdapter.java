@@ -9,10 +9,8 @@ import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import java.util.List;
 import java.util.HashMap;
-
 import com.city4age.mobile.city4age.R;
 import com.city4age.mobile.city4age.Model.*;
 import com.city4age.mobile.city4age.TrackActivity;
@@ -21,26 +19,25 @@ import com.google.gson.Gson;
 /**
  * Created by srdjan.milakovic on 08/07/2017.
  */
-
 public class CustomExpandableListAdapter extends BaseExpandableListAdapter {
     //Temp variable
     static final String ACTIVITY_DATA = "ACTIVITY_DATA";
 
-    private Context _context;
-    private List<String> _listDataHeader; // header titles
+    private Context mContext;
+    private List<String> mListDataHeader; // header titles
     // child data in format of header title, child title
-    private HashMap<String, List<ActivityData>> _listDataChild;
+    private HashMap<String, List<ActivityData>> mListDataChild;
 
     public CustomExpandableListAdapter(Context context, List<String> listDataHeader,
                                        HashMap<String, List<ActivityData>> listChildData) {
-        this._context = context;
-        this._listDataHeader = listDataHeader;
-        this._listDataChild = listChildData;
+        mContext = context;
+        mListDataHeader = listDataHeader;
+        mListDataChild = listChildData;
     }
 
     @Override
     public Object getChild(int groupPosition, int childPosititon) {
-        return this._listDataChild.get(this._listDataHeader.get(groupPosition))
+        return this.mListDataChild.get(this.mListDataHeader.get(groupPosition))
                 .get(childPosititon);
     }
 
@@ -56,7 +53,7 @@ public class CustomExpandableListAdapter extends BaseExpandableListAdapter {
         final ActivityData childObject = (ActivityData) getChild(groupPosition, childPosition);
 
         if (convertView == null) {
-            LayoutInflater infalInflater = (LayoutInflater) this._context
+            LayoutInflater infalInflater = (LayoutInflater) this.mContext
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = infalInflater.inflate(R.layout.exp_list_item, null);
         }
@@ -76,13 +73,9 @@ public class CustomExpandableListAdapter extends BaseExpandableListAdapter {
                 ActivityData activity = (ActivityData) v.getTag();
                 String activityObject = gson.toJson(activity);
 
-//                int duration = Toast.LENGTH_SHORT;
-//                Toast toast = Toast.makeText(_context, activityObject, duration);
-//                toast.show();
-
-                Intent intentToActivity = new Intent(_context, TrackActivity.class);
+                Intent intentToActivity = new Intent(mContext, TrackActivity.class);
                 intentToActivity.putExtra(ACTIVITY_DATA, activityObject);
-                _context.startActivity(intentToActivity);
+                mContext.startActivity(intentToActivity);
             }
         });
 
@@ -91,18 +84,18 @@ public class CustomExpandableListAdapter extends BaseExpandableListAdapter {
 
     @Override
     public int getChildrenCount(int groupPosition) {
-        return this._listDataChild.get(this._listDataHeader.get(groupPosition))
+        return this.mListDataChild.get(this.mListDataHeader.get(groupPosition))
                 .size();
     }
 
     @Override
     public Object getGroup(int groupPosition) {
-        return this._listDataHeader.get(groupPosition);
+        return this.mListDataHeader.get(groupPosition);
     }
 
     @Override
     public int getGroupCount() {
-        return this._listDataHeader.size();
+        return this.mListDataHeader.size();
     }
 
     @Override
@@ -115,7 +108,7 @@ public class CustomExpandableListAdapter extends BaseExpandableListAdapter {
                              View convertView, ViewGroup parent) {
         String headerTitle = (String) getGroup(groupPosition);
         if (convertView == null) {
-            LayoutInflater infalInflater = (LayoutInflater) this._context
+            LayoutInflater infalInflater = (LayoutInflater) this.mContext
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = infalInflater.inflate(R.layout.exp_list_group, null);
         }

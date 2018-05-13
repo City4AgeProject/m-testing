@@ -12,41 +12,47 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
-import android.widget.ImageButton;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
-
+import com.city4age.mobile.city4age.Adapters.FavoritesListAdapter;
 import com.city4age.mobile.city4age.Helpers.HttpHelper;
 import com.city4age.mobile.city4age.Helpers.JSONToFileHelper;
 import com.city4age.mobile.city4age.Model.ActivityData;
+import com.city4age.mobile.city4age.Model.ActivityTypes;
 import com.city4age.mobile.city4age.Model.BluetoothData;
 import com.city4age.mobile.city4age.Model.GPSData;
 import com.city4age.mobile.city4age.Model.RecognitionData;
 import com.city4age.mobile.city4age.Model.WifiData;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
+
+import static com.city4age.mobile.city4age.TrackActivity.ACTIVITY_DATA;
 
 /**
  * Created by srdjan.milakovic on 08/07/2017.
  */
-
 public class SelectActivity extends AppCompatActivity {
 
-    Button btnSelectActivity;
-    Button btnSyncToServer;
+    public static final String TAG = SelectActivity.class.getSimpleName();
+
+    private Button mSelectActivityBtn;
+    private Button mSyncToServerBtn;
     private SyncTask mSyncTask = null;
-    List<ActivityData> listOfActivities;
+    private List<ActivityData> mListOfActivities;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,28 +73,62 @@ public class SelectActivity extends AppCompatActivity {
         userName.setText(prefs.getString("user_name", ""));
 
         // Reference select activity btn and add onClick listener
-        btnSelectActivity = (Button)findViewById(R.id.btn_select_activity);
-        btnSelectActivity.setOnClickListener(new View.OnClickListener() {
+        mSelectActivityBtn = (Button)findViewById(R.id.btn_select_activity);
+        mSelectActivityBtn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 goToActivityList();
             }
         });
 
-        btnSyncToServer = (Button)findViewById(R.id.btn_sync);
-        btnSyncToServer.setOnClickListener(new View.OnClickListener() {
+        mSyncToServerBtn = (Button)findViewById(R.id.btn_sync);
+        mSyncToServerBtn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 String savedData = JSONToFileHelper.getData(getApplicationContext());
 
                 if (savedData != null && !savedData.isEmpty()) {
                     Type listType = new TypeToken<ArrayList<ActivityData>>(){}.getType();
-                    listOfActivities = new Gson().fromJson(savedData, listType);
+                    mListOfActivities = new Gson().fromJson(savedData, listType);
                 }
                 else{
-                    listOfActivities = new ArrayList<ActivityData>();
+                    mListOfActivities = new ArrayList<ActivityData>();
                 }
 
-                mSyncTask = new SyncTask((ArrayList<ActivityData>) listOfActivities);
+                mSyncTask = new SyncTask((ArrayList<ActivityData>) mListOfActivities);
                 mSyncTask.execute((Void) null);
+            }
+        });
+
+        Map<Integer, Integer> map = JSONToFileHelper.loadMap(getApplicationContext());
+        ArrayList<ActivityData> activities = new ArrayList<>();
+        for (Map.Entry<Integer, Integer> entry : map.entrySet()) {
+            ActivityTypes types = new ActivityTypes();
+            ActivityData activity = types.getActivityMap().get(entry.getKey());
+            activity.favCounter = entry.getValue();
+            activities.add(activity);
+        }
+
+        Collections.sort(activities, (new Comparator<ActivityData>() {
+            @Override
+            public int compare(ActivityData o1, ActivityData o2) {
+                return o1.favCounter < o2.favCounter ? -1 : 1;
+            }
+        }));
+
+        ListView lv = (ListView) findViewById(R.id.favorites_list);
+        lv.setAdapter(new FavoritesListAdapter(this, activities.size() > 3 ? activities.subList(0, 3) : activities));
+
+        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapter, View v, int position,
+                                    long arg3) {
+                ActivityData data = (ActivityData) adapter.getItemAtPosition(position);
+
+                Gson gson = new Gson();
+                ActivityData activity = (ActivityData) adapter.getItemAtPosition(position);
+                String activityObject = gson.toJson(activity);
+                Intent intentToActivity = new Intent(getApplicationContext(), TrackActivity.class);
+                intentToActivity.putExtra(ACTIVITY_DATA, activityObject);
+                startActivity(intentToActivity);
             }
         });
     }

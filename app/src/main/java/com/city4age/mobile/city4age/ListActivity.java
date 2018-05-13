@@ -12,21 +12,20 @@ import android.view.View;
 import android.widget.ExpandableListAdapter;
 import android.widget.ExpandableListView;
 import android.widget.ImageButton;
-
 import com.city4age.mobile.city4age.Adapters.*;
 import com.city4age.mobile.city4age.Model.*;
 
 /**
  * Created by srdjan.milakovic on 08/07/2017.
  */
-
 public class ListActivity extends AppCompatActivity {
 
-    ExpandableListAdapter listAdapter;
-    ExpandableListView expListView;
+    public static final String TAG = ListActivity.class.getSimpleName();
 
-    ImageButton logoButton;
-
+    private ImageButton mLogoButton;
+    private ExpandableListAdapter mListAdapter;
+    private ExpandableListView mExpListView;
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,8 +40,8 @@ public class ListActivity extends AppCompatActivity {
         myToolbar.setOverflowIcon(drawable);
 
         // logo link to home
-        logoButton = (ImageButton) findViewById(R.id.my_toolbar_logo);
-        logoButton.setOnClickListener(new View.OnClickListener(){
+        mLogoButton = (ImageButton) findViewById(R.id.my_toolbar_logo);
+        mLogoButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
                 Intent intentLoadSelectActivity = new Intent(ListActivity.this, SelectActivity.class);
@@ -51,14 +50,14 @@ public class ListActivity extends AppCompatActivity {
         });
 
         // Get the list view
-        expListView = (ExpandableListView) findViewById(R.id.activity_exp_list);
+        mExpListView = (ExpandableListView) findViewById(R.id.activity_exp_list);
 
         // Preparing list data
         ActivityTypes types = new ActivityTypes();
 
         // Setting list adapter
-        listAdapter = new CustomExpandableListAdapter(this, types.getListDataHeader(), types.getListDataChild());
-        expListView.setAdapter(listAdapter);
+        mListAdapter = new CustomExpandableListAdapter(this, types.getListDataHeader(), types.getListDataChild());
+        mExpListView.setAdapter(mListAdapter);
     }
 
     @Override

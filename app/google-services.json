@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "994452031686",
+    "firebase_url": "https://m-testing.firebaseio.com",
+    "project_id": "m-testing",
+    "storage_bucket": "m-testing.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:994452031686:android:52be77cb8d289fa0",
+        "android_client_info": {
+          "package_name": "com.city4age.mobile.city4age"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "994452031686-pegnum68j021dfg6lpa2humqbtqrm4nb.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.city4age.mobile.city4age",
+            "certificate_hash": "3bfe1e8d185f34cb7a6e640b58a49937e21f66b3"
+          }
+        },
+        {
+          "client_id": "994452031686-6k6cag9jhd9rbq1biacfhr8luk874vms.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAnpKoBU2oMnrR5YcaVRnlSDZ9ODw5Pt8s"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "994452031686-6k6cag9jhd9rbq1biacfhr8luk874vms.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

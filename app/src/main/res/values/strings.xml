@@ -7,4 +7,8 @@
     <string name="reset">Reset</string>
     <string name="title">Action Timer</string>
     <string name="finish">Finish</string>
+    <string name="recent_activities">Recent activities</string>
+    <string name="sync">Synchronize</string>
+
+    <string name="default_notification_channel_id">notifications</string>
 </resources>

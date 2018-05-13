@@ -1,21 +1,18 @@
 package com.city4age.mobile.city4age;
 
 import android.Manifest;
-import android.app.PendingIntent;
 import android.bluetooth.BluetoothDevice;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
-import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Handler;
 import android.os.SystemClock;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -27,7 +24,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.city4age.mobile.city4age.Helpers.JSONToFileHelper;
 import com.city4age.mobile.city4age.Model.ActivityData;
 import com.city4age.mobile.city4age.Model.BluetoothData;
@@ -40,7 +36,6 @@ import com.city4age.mobile.city4age.Sensors.RecognitionSensor;
 import com.city4age.mobile.city4age.Sensors.WifiSensor;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -52,23 +47,26 @@ import java.util.Map;
  * Created by srdjan.milakovic on 08/07/2017.
  */
 public class TrackActivity extends AppCompatActivity {
-    String activityJSON;
-    ActivityData activity;
-    static final String ACTIVITY_DATA = "ACTIVITY_DATA";
-    private BroadcastReceiver broadcastReceiver;
+
+    public static final String TAG = TrackActivity.class.getSimpleName();
+    public static final String ACTIVITY_DATA = "ACTIVITY_DATA";
+    
+    private String mActivityJSON;
+    private ActivityData mActivityData;
+    private BroadcastReceiver mBroadcastReceiver;
 
     //Stopwatch variables
-    Button butnstart, butnCancel, btnFinnish;
-    TextView time;
-    long starttime = 0L;
-    long timeInMilliseconds = 0L;
-    long timeSwapBuff = 0L;
-    long updatedtime = 0L;
-    int t = 1;
-    int secs = 0;
-    int mins = 0;
-    int milliseconds = 0;
-    Handler handler = new Handler();
+    private Button butnstart, butnCancel, btnFinnish;
+    private TextView time;
+    private long starttime = 0L;
+    private long timeInMilliseconds = 0L;
+    private long timeSwapBuff = 0L;
+    private long updatedtime = 0L;
+    private int t = 1;
+    private int secs = 0;
+    private int mins = 0;
+    private int milliseconds = 0;
+    private Handler handler = new Handler();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,21 +83,20 @@ public class TrackActivity extends AppCompatActivity {
         // Read type of activity from Intent that invoked screen
         final Gson gson = new Gson();
         Bundle extras = getIntent().getExtras();
-        activityJSON = extras.getString(ACTIVITY_DATA);
-        activity = gson.fromJson(activityJSON, ActivityData.class);
+        mActivityJSON = extras.getString(ACTIVITY_DATA);
+        mActivityData = gson.fromJson(mActivityJSON, ActivityData.class);
 
-        /*
-        Integer id = activity.getId();
+        Integer id = mActivityData.getId();
         Map<Integer,Integer> map = JSONToFileHelper.loadMap(getApplicationContext());
-        map.put(id, map.get(id) + 1);
+        Integer val = map.containsKey(id)?map.get(id) : Integer.valueOf(0);
+        map.put(id, val + 1);
         JSONToFileHelper.saveMap(getApplicationContext(), map);
-        */
 
         // Display activity info
         TextView activityDescription = (TextView) findViewById(R.id.activity_track_description);
-        activityDescription.setText(activity.getActivity_description());
+        activityDescription.setText(mActivityData.getActivity_description());
         TextView activityName = (TextView) findViewById(R.id.activity_track_name);
-        activityName.setText(activity.getActivity_name());
+        activityName.setText(mActivityData.getActivity_name());
 
         // Stopwatch controls
         butnstart = (Button) findViewById(R.id.start);
@@ -115,7 +112,7 @@ public class TrackActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if (t == 1) {
                     // timer will start
-                    activity.setActivity_start_date(new Date());
+                    mActivityData.setActivity_start_date(new Date());
                     butnstart.setText("In progress...");
                     starttime = SystemClock.uptimeMillis();
                     handler.postDelayed(updateTimer, 0);
@@ -156,18 +153,18 @@ public class TrackActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String savedData = JSONToFileHelper.getData(getApplicationContext());
-                activity.setActivity_end_date(new Date());
+                mActivityData.setActivity_end_date(new Date());
 
                 if (savedData != null && !savedData.isEmpty()) {
                     Type listType = new TypeToken<ArrayList<ActivityData>>(){}.getType();
                     List<ActivityData> listOfActivities = new Gson().fromJson(savedData, listType);
-                    listOfActivities.add(activity);
+                    listOfActivities.add(mActivityData);
 
                     String updatedListOfActivities = gson.toJson(listOfActivities);
                     JSONToFileHelper.saveData(getApplicationContext(), updatedListOfActivities);
                 } else {
                     List<ActivityData> newListOfActivities = new ArrayList<>();
-                    newListOfActivities.add(activity);
+                    newListOfActivities.add(mActivityData);
 
                     String newListToSaveToFile = gson.toJson(newListOfActivities);
                     JSONToFileHelper.saveData(getApplicationContext(), newListToSaveToFile);
@@ -188,8 +185,8 @@ public class TrackActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        if (broadcastReceiver == null){
-            broadcastReceiver = new BroadcastReceiver() {
+        if (mBroadcastReceiver == null){
+            mBroadcastReceiver = new BroadcastReceiver() {
                 @Override
                 public void onReceive(Context context, Intent intent) {
                     String action = intent.getAction();
@@ -201,21 +198,21 @@ public class TrackActivity extends AppCompatActivity {
                                 b.getDouble("latitude"),
                                 b.getDouble("longitude")
                         );
-                        activity.addSensorData(gpsData);
+                        mActivityData.addSensorData(gpsData);
                     } else if (action.compareTo("bluetooth_update") == 0) {
                         BluetoothDevice device = intent.getExtras().getParcelable("device");
                         assert device != null;
                         Log.d("==Receiver", "bluetooth_update" + device.getName());
                         BluetoothData btData = new BluetoothData(date, device.getName());
-                        activity.addBluetoothData(btData);
+                        mActivityData.addBluetoothData(btData);
                     } else if (action.compareTo("wifi_update") == 0) {
                         String[] devices = intent.getExtras().getStringArray("devices");
                         assert devices != null;
                         WifiData wifiData = new WifiData(date, new ArrayList<>(Arrays.asList(devices)));
-                        activity.addWifiData(wifiData);
+                        mActivityData.addWifiData(wifiData);
                     } else if (action.compareTo("recognition_update") == 0) {
                         RecognitionData recData = new RecognitionData(date, intent.getExtras().getString("type"));
-                        activity.addRecognitionData(recData);
+                        mActivityData.addRecognitionData(recData);
                     }
                 }
             };
@@ -226,14 +223,14 @@ public class TrackActivity extends AppCompatActivity {
         sensorFilterIntent.addAction("bluetooth_update");
         sensorFilterIntent.addAction("wifi_update");
         sensorFilterIntent.addAction("recognition_update");
-        registerReceiver(broadcastReceiver, sensorFilterIntent);
+        registerReceiver(mBroadcastReceiver, sensorFilterIntent);
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (broadcastReceiver != null){
-            unregisterReceiver(broadcastReceiver);
+        if (mBroadcastReceiver != null){
+            unregisterReceiver(mBroadcastReceiver);
         }
     }
 

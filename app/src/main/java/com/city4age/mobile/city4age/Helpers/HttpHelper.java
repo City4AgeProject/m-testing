@@ -2,22 +2,16 @@ package com.city4age.mobile.city4age.Helpers;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.io.BufferedInputStream;
 import java.io.BufferedReader;
-import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.net.URLEncoder;
 
 /**
  * Created by srdjan.milakovic on 08/07/2017.
  */
-
 public class HttpHelper {
 
     public static JSONObject getJSONFromUrl(String urlString) throws IOException, JSONException {

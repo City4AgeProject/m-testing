@@ -61,11 +61,31 @@
         android:id="@+id/btn_sync"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Synchronize"
+        android:text="@string/sync"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_margin="20dp"
         android:textColor="@color/white"
         android:background="#0fbdc4"/>
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:text="@string/recent_activities"
+        android:layout_below="@+id/activity_selector_button"
+        android:layout_alignStart="@+id/btn_sync" />
+
+    <ListView
+        android:id="@+id/favorites_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="4dp"
+        android:layout_marginStart="4dp"
+        android:groupIndicator="@null"
+        android:layout_below="@+id/textView2"
+        android:childDivider="@color/c4a_gray">
+    </ListView>
 
 </RelativeLayout>

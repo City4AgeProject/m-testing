@@ -19,10 +19,11 @@ import java.io.IOException;
 /**
  * Created by srdjan.milakovic on 08/07/2017.
  */
-
 public class MainActivity extends AppCompatActivity {
 
-    protected Button loginBtn;
+    public static final String TAG = MainActivity.class.getSimpleName();
+
+    private Button mLoginBtn;
     private UserLoginTask mAuthTask = null;
 
     @Override
@@ -37,8 +38,8 @@ public class MainActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
         // Reference login btn and set onClick listener
-        loginBtn = (Button) findViewById(R.id.login_button);
-        loginBtn.setOnClickListener(new View.OnClickListener() {
+        mLoginBtn = (Button) findViewById(R.id.login_button);
+        mLoginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 EditText usernameView = (EditText) findViewById(R.id.username);
@@ -51,11 +52,11 @@ public class MainActivity extends AppCompatActivity {
 
     private class UserLoginTask extends AsyncTask<Void, Void, Boolean> {
 
-        private final String mEmail;
+        private final String mUserName;
         private final String mPass;
 
-        UserLoginTask(String email, String pass) {
-            mEmail = email;
+        UserLoginTask(String userName, String pass) {
+            mUserName = userName;
             mPass = pass;
         }
 
@@ -71,7 +72,7 @@ public class MainActivity extends AppCompatActivity {
                 //local Glassfish server test
                 //result = HttpHelper.getJSONFromUrl("http://10.0.2.2:8080/C4A-dashboard/rest/users/login/username/" + mEmail + "/password/" + mPass);
                 //server Madrid
-                result = HttpHelper.getJSONFromUrl("http://138.4.10.230:8000/C4A-dashboard/rest/users/login/username/" + mEmail + "/password/" + mPass);
+                result = HttpHelper.getJSONFromUrl("http://138.4.10.230:8000/C4A-dashboard/rest/users/login/username/" + mUserName + "/password/" + mPass);
                 //nas server Aca
                 //result = HttpHelper.getJSONFromUrl("http://109.111.225.84:8082/C4A-dashboard/rest/users/login/username/" + mEmail + "/password/" + mPass);
                 //nas server Aca2
@@ -97,7 +98,6 @@ public class MainActivity extends AppCompatActivity {
                 // status = result.getString("message").equals("success") && result.getString("responseCode").equals("10");
                 status = result.getString("responseCode").equals("200");
 
-
                 if (status) {
                     SharedPreferences prefs = getSharedPreferences("LOCAL_DATA", 0);
                     SharedPreferences.Editor editor = prefs.edit();
@@ -106,11 +106,13 @@ public class MainActivity extends AppCompatActivity {
                     //editor.putString("user_id", result.getString("ID"));
                     editor.putString("user_id", result.getString("uirId"));
                     editor.apply();
+
+                    // TODO send firebase token to server
+                    String firebaseToken = prefs.getString("firebase_token", "");
                 }
             } catch (JSONException e) {
                 return false;
             }
-
 
             return status;
         }

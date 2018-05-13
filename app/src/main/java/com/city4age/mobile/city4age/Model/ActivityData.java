@@ -7,6 +7,8 @@ import java.util.Date;
  * Created by srdjan.milakovic on 08/07/2017.
  */
 public class ActivityData {
+    public int favCounter = 0;
+
     private int id;
     private String activity_name;
     private Date activity_start_date;

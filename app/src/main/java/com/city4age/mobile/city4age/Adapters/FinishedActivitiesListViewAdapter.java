@@ -6,29 +6,26 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
-
 import com.city4age.mobile.city4age.Model.ActivityData;
 import com.city4age.mobile.city4age.Model.BluetoothData;
 import com.city4age.mobile.city4age.Model.GPSData;
 import com.city4age.mobile.city4age.Model.RecognitionData;
 import com.city4age.mobile.city4age.Model.WifiData;
 import com.city4age.mobile.city4age.R;
-
 import java.util.List;
 
 /**
  * Created by srdjan.milakovic on 08/07/2017.
  */
-
 public class FinishedActivitiesListViewAdapter extends ArrayAdapter {
 
-    List<ActivityData> activitiesList;
-    private static LayoutInflater inflater = null;
+    List<ActivityData> mActivitiesList;
+    private static LayoutInflater mInflater = null;
 
     public FinishedActivitiesListViewAdapter(Context context, List<ActivityData> list) {
         super(context, 0, list);
-        activitiesList = list;
-        inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        mActivitiesList = list;
+        mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
     @Override
@@ -36,7 +33,7 @@ public class FinishedActivitiesListViewAdapter extends ArrayAdapter {
         ViewHolder holder;
 
         if (convertView == null) {
-            convertView = inflater.inflate(R.layout.activity_finished_list_item, parent, false);
+            convertView = mInflater.inflate(R.layout.activity_finished_list_item, parent, false);
             // inflate custom layout called row
             holder = new ViewHolder();
             holder.number = (TextView) convertView.findViewById(R.id.tv_finished_activity_number);
@@ -56,7 +53,7 @@ public class FinishedActivitiesListViewAdapter extends ArrayAdapter {
             holder = (ViewHolder) convertView.getTag();
         }
 
-        ActivityData in = (ActivityData) activitiesList.get(position);
+        ActivityData in = (ActivityData) mActivitiesList.get(position);
         String positionNumber = String.valueOf(position + 1);
         holder.number.setText(positionNumber);
         holder.name.setText(in.getActivity_name());

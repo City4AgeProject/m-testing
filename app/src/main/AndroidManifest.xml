@@ -1,18 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="com.city4age.mobile.city4age">
+    package="com.city4age.mobile.city4age">
 
     <uses-feature android:name="android.hardware.bluetooth" />
+
     <uses-permission android:name="android.permission.BLUETOOTH" />
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE"/>
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="com.google.android.gms.permission.ACTIVITY_RECOGNITION"/>
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="com.google.android.gms.permission.ACTIVITY_RECOGNITION" />
 
     <application
         android:allowBackup="true"
@@ -20,26 +21,68 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity"
-            android:configChanges="keyboardHidden|orientation|screenSize"
-            >
+
+        <!-- Set custom default icon. This is used when no icon is set for incoming notification messages.
+     See README(https://goo.gl/l4GJaQ) for more. -->
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_icon"
+            android:resource="@drawable/city4age_logo" />
+        <!-- Set color used with incoming notification messages. This is used when no color is set for the incoming
+             notification message. See README(https://goo.gl/6BKBk7) for more. -->
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_color"
+            android:resource="@color/colorAccent" />
+
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_channel_id"
+            android:value="@string/default_notification_channel_id"/>
+
+        <activity
+            android:name=".SplashActivity"
+            android:theme="@style/SplashTheme"
+        >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".MainActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize">
+        </activity>
         <activity android:name=".SelectActivity" />
         <activity android:name=".ListActivity" />
-        <activity android:name=".TrackActivity"
-            android:screenOrientation="portrait"
-            android:configChanges="keyboardHidden|orientation|screenSize"/>
-        <activity android:name=".FinishedActivity"/>
+        <activity
+            android:name=".TrackActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:screenOrientation="portrait" />
+        <activity android:name=".FinishedActivity" />
 
-        <service android:name=".Sensors.GPSSensor"/>
-        <service android:name=".Sensors.WifiSensor"/>
-        <service android:name=".Sensors.BluetoothSensor"/>
+        <service android:name=".Sensors.GPSSensor" />
+        <service android:name=".Sensors.WifiSensor" />
+        <service android:name=".Sensors.BluetoothSensor" />
         <service android:name=".Sensors.RecognitionSensor" />
         <service android:name=".Sensors.ServiceActivityRecognition" />
+
+        <service
+            android:name=".Notifications.FirebaseTokenManager">
+            <intent-filter>
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT"/>
+            </intent-filter>
+        </service>
+
+        <service
+            android:name=".Notifications.FirebaseMessageManager">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+            </intent-filter>
+        </service>
+
+        <receiver android:name=".Notifications.NotificationsActions">
+            <intent-filter>
+                <action android:name="notification_action"/>
+            </intent-filter>
+        </receiver>
     </application>
+
 </manifest>

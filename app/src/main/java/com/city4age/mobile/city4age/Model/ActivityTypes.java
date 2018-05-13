@@ -12,12 +12,13 @@ import java.util.List;
 public class ActivityTypes {
     private List<String> listDataHeader;
     private HashMap<String, List<ActivityData>> listDataChild;
+
     private HashMap<Integer, ActivityData> activityMap;
 
     public ActivityTypes() {
         listDataHeader = new ArrayList<String>();
         listDataChild = new HashMap<String, List<ActivityData>>();
-        activityMap= new HashMap<Integer, ActivityData>();
+        activityMap = new HashMap<Integer, ActivityData>();
 
         // Adding child data
         listDataHeader.add("Motility");
@@ -369,5 +370,9 @@ public class ActivityTypes {
 
     public HashMap<String, List<ActivityData>> getListDataChild() {
         return listDataChild;
+    }
+
+    public HashMap<Integer, ActivityData> getActivityMap() {
+        return activityMap;
     }
 }

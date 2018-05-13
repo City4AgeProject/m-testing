@@ -11,13 +11,11 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ListView;
-
 import com.city4age.mobile.city4age.Adapters.FinishedActivitiesListViewAdapter;
 import com.city4age.mobile.city4age.Helpers.JSONToFileHelper;
 import com.city4age.mobile.city4age.Model.ActivityData;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
@@ -25,13 +23,13 @@ import java.util.List;
 /**
  * Created by srdjan.milakovic on 08/07/2017.
  */
-
 public class FinishedActivity extends AppCompatActivity {
-    JSONToFileHelper dataManipulation;
-    List<ActivityData> listOfActivities;
 
-    ImageButton logoButton;
+    public static final String TAG = FinishedActivity.class.getSimpleName();
 
+    private ImageButton mLogoButton;
+    private List<ActivityData> mListOfActivities;
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,8 +40,8 @@ public class FinishedActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
         // logo link to home
-                logoButton = (ImageButton) findViewById(R.id.my_toolbar_logo);
-                logoButton.setOnClickListener(new View.OnClickListener(){
+                mLogoButton = (ImageButton) findViewById(R.id.my_toolbar_logo);
+                mLogoButton.setOnClickListener(new View.OnClickListener(){
                     @Override
                     public void onClick(View v) {
                         Intent intentLoadSelectActivity = new Intent(FinishedActivity.this, SelectActivity.class);
@@ -58,16 +56,16 @@ public class FinishedActivity extends AppCompatActivity {
 
         if (savedData != null && !savedData.isEmpty()) {
             Type listType = new TypeToken<ArrayList<ActivityData>>(){}.getType();
-            listOfActivities = new Gson().fromJson(savedData, listType);
+            mListOfActivities = new Gson().fromJson(savedData, listType);
         }
         else{
-            listOfActivities = new ArrayList<ActivityData>();
+            mListOfActivities = new ArrayList<>();
         }
 
-        ListView lv = (ListView) findViewById(R.id.lv_finished_activities);
         // initialize listview
-        lv.setAdapter(new FinishedActivitiesListViewAdapter(this,listOfActivities));
+        ListView lv = (ListView) findViewById(R.id.lv_finished_activities);
         // set the custom adapter to listview
+        lv.setAdapter(new FinishedActivitiesListViewAdapter(this,mListOfActivities));
     }
 
     @Override
@@ -98,6 +96,4 @@ public class FinishedActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
-
-
 }
