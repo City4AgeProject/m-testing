@@ -15,11 +15,12 @@ public class FirebaseTokenManager extends FirebaseInstanceIdService {
         // Get updated InstanceID token.
         String refreshedToken = FirebaseInstanceId.getInstance().getToken();
         Log.d("FIREBASE", "Refreshed token: " + refreshedToken);
+
         // Honor
-        // dkh-URnMgYQ:APA91bHXJY0dxdfaKwT8jfJrH0NuaO8I0fFi72N5I-6RT7Ne217jIeSWtG7eGq0QFOQv95hd4hXPiYt1KMMn0TP6NCqqiNfZQcunQfB6xH4yuJ5ULMLjipUgbZqRpYEKmrVO2Hx58BbE
+        // dkh-URnMgYQ:APA91bEnAnm6iWjSb8mcAZTt3uYgjiTmJ3wEfr_Wen87aERR2iqkNP5yYk41rFL8_lToRXnJ2qxSI1pRpkQ7Gg0mOHpBdbmAZuqrOfmHmXgVFB-EnRd3pjqN--97LKA-vqOI7qQwgQlt
 
         // Samsung
-        //ecnPOHES8Mc:APA91bHZ7hSY1UFuukv8PGv3mQAGkoqqvEsSnt31YDzffoKIabjUV8ZVjOrUtUIhhWPzmYQ_HRrjDTqe-nc6pr3RG7HxdIC9CIaJZvgHd_vFhs9n1PNC3cmn3wLd25C54eYmt-XKdec3
+        // eDWtsYJ3RoQ:APA91bE0qTpq5la2iIB9xNZWm_-FiniBVjmP_MBGDYhm7XvOAT5pY3MklNlmTt2k_Pqe3b264kYKltms5prm9p3yAdDfeCKHjQOg5m3O5HWjYTtZaN3Kk6g5AGAWSzShmI9_QrWi3Y3k
 
         SharedPreferences prefs = getSharedPreferences("LOCAL_DATA", 0);
         SharedPreferences.Editor editor = prefs.edit();
