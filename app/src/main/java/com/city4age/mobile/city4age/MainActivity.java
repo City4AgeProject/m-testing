@@ -5,16 +5,27 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import com.city4age.mobile.city4age.API.ApiUtils;
+import com.city4age.mobile.city4age.API.MTestingService;
+import com.city4age.mobile.city4age.API.Model.MTestingResponse;
+import com.city4age.mobile.city4age.API.Model.TokenRequest;
 import com.city4age.mobile.city4age.Helpers.HttpHelper;
 import org.json.JSONException;
 import org.json.JSONObject;
 import java.io.IOException;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * Created by srdjan.milakovic on 08/07/2017.
@@ -102,13 +113,27 @@ public class MainActivity extends AppCompatActivity {
                     SharedPreferences prefs = getSharedPreferences("LOCAL_DATA", 0);
                     SharedPreferences.Editor editor = prefs.edit();
                     editor.putString("user_name", result.getString("displayName"));
-                    //nope on mobile
-                    //editor.putString("user_id", result.getString("ID"));
-                    editor.putString("user_id", result.getString("uirId"));
+
+                    String user = result.getString("uirId");
+                    editor.putString("user_id", user);
                     editor.apply();
 
-                    // TODO send firebase token to server
                     String firebaseToken = prefs.getString("firebase_token", "");
+
+                    MTestingService mTestingService = ApiUtils.getAPIService();
+                    mTestingService.sendToken(new TokenRequest(user, firebaseToken)).enqueue(new Callback<MTestingResponse>() {
+                        @Override
+                        public void onResponse(@NonNull Call<MTestingResponse> call, @NonNull Response<MTestingResponse> response) {
+                            if (response.isSuccessful()) {
+
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(@NonNull Call<MTestingResponse> call, @NonNull Throwable t) {
+
+                        }
+                    });
                 }
             } catch (JSONException e) {
                 return false;

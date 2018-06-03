@@ -20,7 +20,7 @@ public class FirebaseTokenManager extends FirebaseInstanceIdService {
         // dkh-URnMgYQ:APA91bEnAnm6iWjSb8mcAZTt3uYgjiTmJ3wEfr_Wen87aERR2iqkNP5yYk41rFL8_lToRXnJ2qxSI1pRpkQ7Gg0mOHpBdbmAZuqrOfmHmXgVFB-EnRd3pjqN--97LKA-vqOI7qQwgQlt
 
         // Samsung
-        // eDWtsYJ3RoQ:APA91bE0qTpq5la2iIB9xNZWm_-FiniBVjmP_MBGDYhm7XvOAT5pY3MklNlmTt2k_Pqe3b264kYKltms5prm9p3yAdDfeCKHjQOg5m3O5HWjYTtZaN3Kk6g5AGAWSzShmI9_QrWi3Y3k
+        // e282RhJQ9ec:APA91bHU88p0gWvTYo8bzdCSFWo5HdNEFWrSZT3ydf0gvXfzNdwgiNklnaRRN-fg_6lfEqBttnTDge04sZ3nwhhf5DcbdAHcJnemvoY8YCK6QbszwDVcGekk5PktDArHfAUADBygDNs_
 
         SharedPreferences prefs = getSharedPreferences("LOCAL_DATA", 0);
         SharedPreferences.Editor editor = prefs.edit();

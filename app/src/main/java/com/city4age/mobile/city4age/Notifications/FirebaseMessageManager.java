@@ -17,6 +17,7 @@ public class FirebaseMessageManager extends FirebaseMessagingService {
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
         int type = 0;
+        int id = 1;
         String title = getString(R.string.app_name);
         String msg = "";
 
@@ -28,7 +29,13 @@ public class FirebaseMessageManager extends FirebaseMessagingService {
             Log.d("FIREBASE", "Message data payload: " + remoteMessage.getData());
 
             Map<String, String> dataMap = remoteMessage.getData();
-            type = Integer.parseInt(dataMap.get("type"));
+            if (dataMap.containsKey("type")) {
+                type = Integer.parseInt(dataMap.get("type"));
+            }
+
+            if (dataMap.containsKey("id")) {
+                id = Integer.parseInt(dataMap.get("id"));
+            }
         }
 
         // Check if message contains a notification payload.
@@ -40,6 +47,6 @@ public class FirebaseMessageManager extends FirebaseMessagingService {
         }
 
         NotificationHelper notificationHelper = new NotificationHelper(getApplicationContext());
-        notificationHelper.send(1, title, msg, type);
+        notificationHelper.send(id, title, msg, type);
     }
 }

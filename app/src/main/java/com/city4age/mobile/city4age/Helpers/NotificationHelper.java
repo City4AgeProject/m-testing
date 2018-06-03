@@ -47,15 +47,15 @@ public class NotificationHelper {
             case 1:
                 Intent yesBtn = new Intent(mContext, NotificationsActions.class);
                 yesBtn.setAction("notification_action");
-                yesBtn.putExtra("answer", true);
+                yesBtn.putExtra("answer", 1);
                 yesBtn.putExtra("id", id);
                 mBuilder.addAction(0, "Yes", PendingIntent.getBroadcast(mContext, 1, yesBtn, PendingIntent.FLAG_UPDATE_CURRENT));
 
                 Intent noBtn = new Intent(mContext, NotificationsActions.class);
                 noBtn.setAction("notification_action");
-                noBtn.putExtra("answer", false);
+                noBtn.putExtra("answer", 2);
                 noBtn.putExtra("id", id);
-                mBuilder.addAction(0, "NO", PendingIntent.getBroadcast(mContext, 1, noBtn, PendingIntent.FLAG_UPDATE_CURRENT));
+                mBuilder.addAction(0, "No", PendingIntent.getBroadcast(mContext, 2, noBtn, PendingIntent.FLAG_UPDATE_CURRENT));
                 break;
             case 2:
                 break;
