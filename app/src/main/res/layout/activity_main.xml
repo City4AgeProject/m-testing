@@ -50,7 +50,7 @@
             android:textSize="32dp"
             android:textColor="@color/white"
             android:textAlignment="center"
-            android:text="Welcome" />
+            android:text="@string/welcome" />
 
     </LinearLayout>
 

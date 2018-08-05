@@ -7,7 +7,7 @@ public class ApiUtils {
 
     private ApiUtils() {}
 
-    private static final String BASE_URL = "http://10.0.2.2/mtesting/";
+    private static final String BASE_URL = "http://10.0.2.2/mtesting/";//"http://10.0.2.2/mtesting/";
 
     public static MTestingService getAPIService() {
         return RetrofitClient.getClient(BASE_URL).create(MTestingService.class);

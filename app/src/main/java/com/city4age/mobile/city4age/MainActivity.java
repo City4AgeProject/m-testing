@@ -110,7 +110,7 @@ public class MainActivity extends AppCompatActivity {
                 status = result.getString("responseCode").equals("200");
 
                 if (status) {
-                    SharedPreferences prefs = getSharedPreferences("LOCAL_DATA", 0);
+                    SharedPreferences prefs = getSharedPreferences("misc", Context.MODE_PRIVATE);
                     SharedPreferences.Editor editor = prefs.edit();
                     editor.putString("user_name", result.getString("displayName"));
 

@@ -40,12 +40,14 @@ public class FinishedActivitiesListViewAdapter extends ArrayAdapter {
             holder.name = (TextView) convertView.findViewById(R.id.tv_finished_activity_name);
             holder.date = (TextView) convertView.findViewById(R.id.tv_finished_activity_start_date);
             holder.date2 = (TextView) convertView.findViewById(R.id.tv_finished_activity_end_date);
-            holder.cordinates = (TextView) convertView.findViewById(R.id.tv_finished_activity_coordinates);
 
             // PROBA
+            /*
+            holder.cordinates = (TextView) convertView.findViewById(R.id.tv_finished_activity_coordinates);
             holder.bt = (TextView) convertView.findViewById(R.id.tv_finished_activity_bt);
             holder.wifi = (TextView) convertView.findViewById(R.id.tv_finished_activity_wifi);
             holder.rd = (TextView) convertView.findViewById(R.id.tv_finished_activity_rd);
+            */
 
             // initialize textview
             convertView.setTag(holder);
@@ -63,6 +65,8 @@ public class FinishedActivitiesListViewAdapter extends ArrayAdapter {
         holder.date2.setText(formattedDate2);
         // set the name to the text;
 
+        // PROBA
+        /*
         StringBuilder cords = new StringBuilder();
         for (GPSData sensData:in.getGpsData()) {
             cords.append(sensData.getLatitude());
@@ -74,7 +78,6 @@ public class FinishedActivitiesListViewAdapter extends ArrayAdapter {
             cords.append("\n");
         }
 
-        // PROBA
         StringBuilder bt = new StringBuilder();
         for (BluetoothData sensData:in.getBluetoothData()) {
             bt.append(sensData.getDevice());
@@ -82,23 +85,21 @@ public class FinishedActivitiesListViewAdapter extends ArrayAdapter {
             bt.append("\n");
         }
 
-        // PROBA
         StringBuilder wifi = new StringBuilder();
         for (WifiData sensData:in.getWifiData()) {
             wifi.append(sensData.getDevices());
         }
 
-        // PROBA
         StringBuilder rd = new StringBuilder();
         for (RecognitionData recData:in.getRecognitionData()) {
             rd.append(recData.getType());
             rd.append("\n");
         }
-
         holder.cordinates.setText(cords.toString());
         holder.bt.setText(bt.toString());
         holder.wifi.setText(wifi.toString());
         holder.rd.setText(rd.toString());
+        */
         return convertView;
     }
 
